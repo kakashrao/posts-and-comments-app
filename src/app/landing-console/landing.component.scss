@@ -4,8 +4,9 @@
 }
 
 .posts-container {
+  text-align: left;
   height: calc(100vh - 85px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .card {

@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { LandingComponent } from './landing-console/landing.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { SignupComponent } from './user/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { PostsListComponent } from './posts/posts-list/posts-list.component';
     HeaderComponent,
     PostsListComponent,
     PostCreateComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
