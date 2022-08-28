@@ -1,0 +1,33 @@
+<form>
+  <div class="mb-3">
+    <label for="postTitle" class="form-label">Post title</label>
+    <input type="text" class="form-control" id="postTitle" placeholder="Give a title to your post">
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      placeholder="Describe your post"
+    ></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="userEmail" class="form-label">Upload Images</label>
+    <br>
+    <button type="button" class="btn btn-secondary img-upload-btn" (click)="imageInput.click()">Pick an Image</button>
+    <input
+      type="file"
+      class="form-control"
+      id="userEmail"
+      placeholder="Enter your email"
+      style="visibility: hidden;"
+      #imageInput
+    >
+  </div>
+  <div class="mb-3" *ngIf="postImages.length > 0">
+    <div class="image-container">
+      <img src="" alt="">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

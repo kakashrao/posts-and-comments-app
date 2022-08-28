@@ -17,7 +17,7 @@ export class LandingComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const length = event.url.split('/')['length'];
         this.currentUrl = event.url.split('/')[length - 1];
-        // console.log(this.currentUrl);
+        console.log(this.currentUrl);
       }
     });
   }
