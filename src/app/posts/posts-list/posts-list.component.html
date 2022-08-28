@@ -1,39 +1,58 @@
-<div class="container">
-  <ng-container *ngFor="let post of postsList">
-    <div class="row post-container">
-      <div class="user-info-section">
-        <div class="user-img-section">
-          <div class="user-img" *ngIf="post.userImg">
-            <img [src]="post.postImage" alt="User">
-          </div>
-          <div class="alt-user-img" *ngIf="!post.postImage">A</div>
-        </div>
-        <div class="user-info">
-          <div class="user-name">{{ post.userName }}</div>
-          <div class="user-work-info">{{ post.userWork }}</div>
-        </div>
-      </div>
-      <hr>
-      <div class="card">
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card user-detail-card">
+        <img
+          src="https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
+          class="card-img-top" alt="">
         <div class="card-body">
-          <p class="card-text">{{ post.postDesc }}</p>
+          <h5 class="card-title">Akash</h5>
+          <h6 class="card-subtitle mb-2 text-muted">B.Tech Mechanical</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+          <a href="#" class="card-link">Edit Profile</a>
+          <!-- <a href="#" class="card-link"></a> -->
         </div>
-        <img [src]="post.postImage" class="card-img-top" alt="">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="comment-info">
-              <div class="comment-users">Akash & 23 Others</div>
-              <div class="comment-num">24 Comments</div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-danger">Like</button>
-              <button type="button" class="btn btn-warning">Comment</button>
-            </div>
-          </li>
-        </ul>
       </div>
     </div>
-  </ng-container>
+    <div class="col-8 posts-container">
+      <ng-container *ngFor="let post of postsList">
+        <div class="row post-container">
+          <div class="user-info-section">
+            <div class="user-img-section">
+              <div class="user-img" *ngIf="post.userImg">
+                <img [src]="post.postImage" alt="User">
+              </div>
+              <div class="alt-user-img" *ngIf="!post.postImage">A</div>
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ post.userName }}</div>
+              <div class="user-work-info">{{ post.userWork }}</div>
+            </div>
+          </div>
+          <hr>
+          <div class="card post-detail-card">
+            <div class="card-body">
+              <p class="card-text">{{ post.postDesc }}</p>
+            </div>
+            <img [src]="post.postImage" class="card-img-top" alt="">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="comment-info">
+                  <div class="comment-users">Akash & 23 Others</div>
+                  <div class="comment-num">24 Comments</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <button type="button" class="btn btn-danger">Like</button>
+                  <button type="button" class="btn btn-warning">Comment</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>

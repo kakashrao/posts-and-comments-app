@@ -10,15 +10,7 @@ export class LandingComponent implements OnInit {
 
   constructor(private _router: Router) {}
 
-  currentUrl: string = '';
-
   ngOnInit(): void {
-    this._router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const length = event.url.split('/')['length'];
-        this.currentUrl = event.url.split('/')[length - 1];
-        console.log(this.currentUrl);
-      }
-    });
+
   }
 }

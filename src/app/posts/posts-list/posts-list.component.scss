@@ -1,3 +1,30 @@
+.posts-container {
+  text-align: left;
+  height: calc(100vh - 85px);
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.posts-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.posts-container {
+  -ms-overflow-style: none;
+}
+
+.user-detail-card {
+  padding-top: 20px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: auto;
+  }
+}
+
 .post-container {
   background-color: white;
   margin-bottom: 20px;
@@ -5,6 +32,7 @@
   font-weight: 400;
   font-family: 'DynaPuff', cursive;
 }
+
 
 .user-info-section {
   display: flex;
@@ -51,7 +79,7 @@ hr {
   left: 2.5%;
 }
 
-.card {
+.post-detail-card {
   width: 100%;
   border: none;
 

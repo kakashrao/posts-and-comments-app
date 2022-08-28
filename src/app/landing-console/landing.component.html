@@ -1,24 +1,5 @@
 <app-header></app-header>
 
-<div class="container text-center">
-  <div class="row justify-content-center">
-    <div class="col-4" *ngIf="!currentUrl || currentUrl === 'posts'">
-      <div class="card">
-        <img
-          src="https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
-          class="card-img-top" alt="">
-        <div class="card-body">
-          <h5 class="card-title">Akash</h5>
-          <h6 class="card-subtitle mb-2 text-muted">B.Tech Mechanical</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
-          <a href="#" class="card-link">Edit Profile</a>
-          <!-- <a href="#" class="card-link"></a> -->
-        </div>
-      </div>
-    </div>
-    <div class="posts-container" [ngClass]="(!currentUrl || currentUrl === 'posts') ? 'col-8' : 'col-12'">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>
