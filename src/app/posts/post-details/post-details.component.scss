@@ -109,3 +109,54 @@ hr {
     border-radius: 5px;
   }
 }
+
+.comment-section {
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.col-5 {
+  height: calc(100vh - 85px);
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.col-5::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.col-5 {
+  -ms-overflow-style: none;
+}
+
+.comment-heading {
+  text-align: left;
+  font-size: 20px;
+}
+
+.user-comment {
+  text-align: left;
+  font-size: 14px;
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+
+  textarea {
+    resize: none;
+    height: 100px;
+  }
+}
+
+.post-comment-btn {
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+  text-align: right;
+  margin-top: 15px;
+
+  button {
+    padding: 5px 15px;
+  }
+}

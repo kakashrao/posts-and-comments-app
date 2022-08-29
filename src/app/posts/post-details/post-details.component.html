@@ -1,0 +1,88 @@
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-7 posts-container">
+        <div class="row post-container">
+          <div class="user-info-section">
+            <div class="user-img-section">
+              <div class="user-img" *ngIf="postData.userImg">
+                <img [src]="postData.postImage" alt="User">
+              </div>
+              <div class="alt-user-img" *ngIf="!postData.postImage">A</div>
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ postData.userName }}</div>
+              <div class="user-work-info">{{ postData.userWork }}</div>
+            </div>
+          </div>
+          <hr>
+          <div class="card post-detail-card">
+            <div class="card-body">
+              <p class="card-text">{{ postData.postDesc }}</p>
+            </div>
+            <img [src]="postData.postImage" class="card-img-top" alt="">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="comment-info">
+                  <div class="comment-users">Akash & 23 Others</div>
+                  <div class="comment-num">24 Comments</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <button type="button" class="btn btn-danger">Like</button>
+                  <!-- <button type="button" class="btn btn-warning">Comment</button> -->
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-5">
+      <div class="comment-section">
+        <div class="user-info-section">
+          <div class="user-img-section">
+            <div class="user-img" *ngIf="postData.userImg">
+              <img [src]="postData.userImg" alt="User">
+            </div>
+            <div class="alt-user-img" *ngIf="!postData.userImg">A</div>
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ postData.userName }}</div>
+            <div class="user-work-info">{{ postData.userWork }}</div>
+          </div>
+        </div>
+        <div class="user-comment">
+          <textarea
+            class="form-control"
+            placeholder="Write your comment here"
+          ></textarea>
+        </div>
+        <div class="post-comment-btn">
+          <button class="btn btn-primary">Post</button>
+        </div>
+      </div>
+
+      <h1 class="comment-heading mt-3">Comments</h1>
+      <ng-container *ngFor="let comment of commentList">
+        <div class="comment-section">
+          <div class="user-info-section">
+            <div class="user-img-section">
+              <div class="user-img" *ngIf="comment.userImg">
+                <img [src]="comment.userImg" alt="User">
+              </div>
+              <div class="alt-user-img" *ngIf="!comment.userImg">A</div>
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ comment.userName }}</div>
+              <div class="user-work-info">{{ comment.userWork }}</div>
+            </div>
+          </div>
+          <div class="user-comment">
+           {{ comment.commentText }}
+          </div>
+        </div>
+     </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
+import { PostDetailsComponent } from './posts/post-details/post-details.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { LoginComponent } from './user/login/login.component';
 import { SignupComponent } from './user/signup/signup.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'create-post', component: PostCreateComponent},
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'post', component: PostDetailsComponent },
 ];
 
 @NgModule({
