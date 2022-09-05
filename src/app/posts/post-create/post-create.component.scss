@@ -5,7 +5,19 @@ form {
   padding: 1% 2%;
   font-weight: 400;
   font-family: 'DynaPuff', cursive;
+  overflow-y: scroll;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+form::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+form {
+  -ms-overflow-style: none;
+}
+
 
 textarea {
   resize: none;
@@ -15,3 +27,22 @@ textarea {
 .img-upload-btn {
   font-size: 12px;
 }
+
+.valid {
+  color: green;
+  position: relative;
+  top: 4px;
+  font-size: 13px;
+}
+
+.invalid {
+  color: red;
+  position: relative;
+  top: 4px;
+  font-size: 13px;
+}
+
+.submit-button {
+  text-align: right;
+}
+
