@@ -16,6 +16,10 @@
       </div>
     </div>
     <div class="col-8 posts-container">
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isPostCreated">
+        <strong>Hurray! </strong> Post Created Successfully, check it out
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
       <ng-container *ngFor="let post of postsList">
         <div class="row post-container">
           <div class="user-info-section">

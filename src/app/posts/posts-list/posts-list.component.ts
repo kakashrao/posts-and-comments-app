@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { PostsService } from "../posts.service";
 
 import { Post } from "../post.model";
+import { map } from "rxjs";
 
 @Component({
   templateUrl: './posts-list.component.html',
@@ -15,11 +16,20 @@ export class PostsListComponent implements OnInit {
     private _postsService: PostsService
   ) {}
 
-    ngOnInit(): void {
-      this.getAllPosts();
-    }
+  ngOnInit(): void {
+    this._postsService.getPostCreatedObs().subscribe((isPostCreated: boolean) => {
+      this.isPostCreated = isPostCreated;
+    })
 
-    postsList: Post[] = [];
+    setTimeout(() => {
+      this.isPostCreated = false;
+    }, 1000)
+
+    this.getAllPosts();
+  }
+
+  isPostCreated: boolean = false;
+  postsList: Post[] = [];
 
   // postsList = [
   //   {
@@ -48,7 +58,17 @@ export class PostsListComponent implements OnInit {
   postLoading: boolean = false;
   getAllPosts() {
     this.postLoading = true;
-    this._postsService.getAllPosts().subscribe((response: any) => {
+    this._postsService.getAllPosts().pipe(map((postData : any) => {
+      return {
+        posts: postData.posts.map((element: { _id: any; title: any; description: any; }) => {
+          return {
+            postId: element._id,
+            title: element.title,
+            description: element.description
+          }
+        })
+      }
+    })).subscribe((response: any) => {
       console.log(response);
       this.postsList = response.posts.map((element: {title: string, description: string}) => {
         return {
@@ -57,6 +77,8 @@ export class PostsListComponent implements OnInit {
         }
       })
 
+      this.postLoading = false;
+    }, error => {
       this.postLoading = false;
     })
   }
