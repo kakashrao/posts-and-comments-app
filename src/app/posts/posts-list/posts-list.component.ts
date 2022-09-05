@@ -52,12 +52,8 @@ export class PostsListComponent implements OnInit {
       console.log(response);
       this.postsList = response.posts.map((element: {title: string, description: string}) => {
         return {
-          userName: "Akash",
-          userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-          userWork: "B.Tech Mechanical",
-          postTitle: element.title,
-          postDesc: element.description,
-          postImage: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
+          title: element.title,
+          description: element.description,
         }
       })
 

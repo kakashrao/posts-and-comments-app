@@ -20,23 +20,24 @@
         <div class="row post-container">
           <div class="user-info-section">
             <div class="user-img-section">
-              <div class="user-img" *ngIf="post.userImg">
+              <!-- <div class="user-img" *ngIf="post.userImg">
                 <img [src]="post.postImage" alt="User">
               </div>
-              <div class="alt-user-img" *ngIf="!post.postImage">A</div>
+              <div class="alt-user-img" *ngIf="!post.postImage">A</div> -->
+              <div class="alt-user-img">A</div>
             </div>
             <div class="user-info">
-              <div class="user-name">{{ post.userName }}</div>
-              <div class="user-work-info">{{ post.userWork }}</div>
+              <div class="user-name">Akash</div>
+              <div class="user-work-info">B.Tech Mechanical</div>
             </div>
           </div>
           <hr>
           <div class="card post-detail-card" (click)="showPostDetails()">
             <div class="card-body">
-              <div class="card-title">{{ post.postTitle }}</div>
-              <p class="card-text">{{ post.postDesc }}</p>
+              <div class="card-title">{{ post.title }}</div>
+              <p class="card-text">{{ post.description }}</p>
             </div>
-            <img [src]="post.postImage" class="card-img-top" alt="">
+            <img [src]="'https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg'" class="card-img-top" alt="">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <div class="comment-info">
