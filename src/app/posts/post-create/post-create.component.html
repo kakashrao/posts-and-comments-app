@@ -34,29 +34,36 @@
       You must give a description before submitting.
     </div>
   </div>
-  <!-- <div class="mb-3">
+  <div class="mb-3">
     <label for="userEmail" class="form-label">Upload Images</label>
     <br>
     <button type="button" class="btn btn-secondary img-upload-btn" (click)="imageInput.click()">Pick an Image</button>
     <input
       type="file"
+      accept="image/x-png,image/gif,image/jpeg,image/jpg"
+      multiple
       class="form-control"
       id="userEmail"
       placeholder="Enter your email"
       style="visibility: hidden;"
+      (change)="onUploadImages($event)"
       #imageInput
     >
   </div>
-  <div class="mb-3" *ngIf="postImages.length > 0">
-    <div class="image-container">
-      <img src="" alt="">
+  <div class="mb-2 image-preview" *ngIf="postImages.length > 0 && form.get('images')?.valid">
+    <div class="image-container" *ngFor="let image of postImages">
+      <img [src]="image" [alt]="form.get('title')">
     </div>
-  </div> -->
-  <div class="mb-3 submit-button">
+  </div>
+  <div class="mb-2 submit-button">
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="form.get('title')?.invalid || form.get('description')?.invalid"
+      [disabled]="
+        form.get('title')?.invalid ||
+        form.get('description')?.invalid ||
+        form.get('images')?.invalid
+      "
     >
       Submit
     </button>

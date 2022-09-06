@@ -1,5 +1,7 @@
 form {
   width: 50%;
+  height: auto;
+  max-height: calc(100vh - 85px);
   margin: auto;
   background-color: white;
   padding: 1% 2%;
@@ -46,3 +48,17 @@ textarea {
   text-align: right;
 }
 
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+
+  .image-container {
+    margin-left: 15px;
+    margin-bottom: 15px;
+
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+}
