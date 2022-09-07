@@ -26,9 +26,7 @@ export class PostCreateComponent implements OnInit {
       description: new FormControl('', {
         validators: [ Validators.required ]
       }),
-      images: new FormControl([], {
-        validators: [Validators.required]
-      })
+      images: new FormControl([])
     })
   }
 
@@ -62,10 +60,13 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
+  isLoading: boolean = false;
   async createPost() {
     if (this.form?.invalid) {
       return;
     }
+
+    this.isLoading = true;
 
     const formData = new FormData();
 
@@ -80,6 +81,10 @@ export class PostCreateComponent implements OnInit {
       console.log(response);
       this._postService.onPostCreated();
       this._router.navigate(['/posts']);
+      this.isLoading = false;
+    },
+     error => {
+      this.isLoading = false;
     })
   }
 }

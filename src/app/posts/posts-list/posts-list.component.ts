@@ -29,58 +29,34 @@ export class PostsListComponent implements OnInit {
   }
 
   isPostCreated: boolean = false;
-  postsList: Post[] = [];
-
-  // postsList = [
-  //   {
-  //     userName: "Akash",
-  //     userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-  //     userWork: "B.Tech Mechanical",
-  //     postDesc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  //     postImage: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
-  //   },
-  //   {
-  //     userName: "Akash",
-  //     userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-  //     userWork: "B.Tech Mechanical",
-  //     postDesc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  //     postImage: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
-  //   },
-  //   {
-  //     userName: "Akash",
-  //     userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-  //     userWork: "B.Tech Mechanical",
-  //     postDesc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  //     postImage: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
-  //   }
-  // ]
+  postsList: any[] = [];
 
   postLoading: boolean = false;
   getAllPosts() {
     this.postLoading = true;
     this._postsService.getAllPosts().pipe(map((postData : any) => {
       return {
-        posts: postData.posts.map((element: { _id: any; title: any; description: any; }) => {
+        posts: postData.posts.map((element: { _id: string; title: string; description: string; images: any }) => {
           return {
             postId: element._id,
             title: element.title,
-            description: element.description
+            description: element.description,
+            images: element.images
           }
         })
       }
     })).subscribe((response: any) => {
       console.log(response);
-      this.postsList = response.posts.map((element: {title: string, description: string}) => {
-        return {
-          title: element.title,
-          description: element.description,
-        }
-      })
+      this.postsList = response.posts;
 
       this.postLoading = false;
     }, error => {
       this.postLoading = false;
     })
+  }
+
+  showMoreDescription(post: any, flag: boolean) {
+    post.showFullText = flag;
   }
 
   showPostDetails() {

@@ -11,12 +11,14 @@ router.post("/", upload.array('images') , (req, res, next) => {
   const postData = req.body;
   const postImages = [];
 
-  req.files.forEach(f => {
-    postImages.push({
-      url: f.originalname,
-      fileName: f.path,
+  if(req.files && req.files.length > 0) {
+    req.files.forEach(f => {
+      postImages.push({
+        url: f.path,
+        fileName: f.originalname,
+      })
     })
-  })
+  }
 
   const post = new Post({
     title: postData.title,

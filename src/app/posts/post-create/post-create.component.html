@@ -37,7 +37,7 @@
   <div class="mb-3">
     <label for="userEmail" class="form-label">Upload Images</label>
     <br>
-    <button type="button" class="btn btn-secondary img-upload-btn" (click)="imageInput.click()">Pick an Image</button>
+    <button type="button" class="btn btn-dark img-upload-btn" (click)="imageInput.click()">Browse</button>
     <input
       type="file"
       accept="image/x-png,image/gif,image/jpeg,image/jpg"
@@ -59,13 +59,18 @@
     <button
       type="submit"
       class="btn btn-primary"
+      *ngIf="!isLoading"
       [disabled]="
         form.get('title')?.invalid ||
-        form.get('description')?.invalid ||
-        form.get('images')?.invalid
+        form.get('description')?.invalid
       "
     >
-      Submit
+      Create Post
+    </button>
+
+    <button class="btn btn-primary" type="button" *ngIf="isLoading" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      Loading...
     </button>
   </div>
 </form>
