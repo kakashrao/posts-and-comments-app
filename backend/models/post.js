@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const postImageSchema = mongoose.Schema({
+  url: String,
+  fileName: String,
+})
+
 const postSchema = mongoose.Schema({
   title: {
     type: String,
@@ -8,7 +13,8 @@ const postSchema = mongoose.Schema({
   description: {
     type: String,
     required: true
-  }
+  },
+  images: [postImageSchema]
 })
 
 module.exports = mongoose.model("Post", postSchema);

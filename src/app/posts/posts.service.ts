@@ -22,7 +22,7 @@ export class PostsService {
     return this.postCreated.asObservable();
   }
 
-  createPost(postData: Post) {
+  createPost(postData: FormData) {
     return this.http.post(environment.baseUrl + '/posts', postData)
   }
 

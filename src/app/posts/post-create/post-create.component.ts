@@ -10,7 +10,10 @@ import { PostsService } from "../posts.service";
 })
 export class PostCreateComponent implements OnInit {
 
-  constructor(private _postService: PostsService, private _router : Router) {}
+  constructor(
+    private _postService: PostsService,
+    private _router : Router,
+  ) {}
 
   form: FormGroup = new FormGroup({})
   postImages : any[] = [];
@@ -29,24 +32,21 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
+  files: any[] = [];
   async onUploadImages(event: any) {
-    // console.log(event);
-    const files = event.target.files;
-    this.form.patchValue({ images: files });
+    this.files = event.target.files;
+    this.form.patchValue({ images: this.files });
     this.form.get('images')?.updateValueAndValidity();
     // console.log(this.form.get('images'));
 
-
-    let i = 0;
-    for(let file of files) {
+    for(let file of this.files) {
       await this.readUploadedFile(file)
       .then((result) => {
         // console.log("result", result);
-        this.postImages[i] = result;
-        i++;
+        this.postImages.push(result);
       })
     }
-    // console.log(this.postImages);
+    console.log(this.postImages);
   }
 
   readUploadedFile(file: any) {
@@ -62,19 +62,21 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
-  createPost() {
+  async createPost() {
     if (this.form?.invalid) {
       return;
     }
 
-    const postData: Post = {
-      postId: '',
-      title: this.form.value.title,
-      description: this.form.value.description,
-      images: this.form.value.images
-    }
+    const formData = new FormData();
 
-    this._postService.createPost(postData).subscribe((response: any) => {
+    formData.append('title', this.form.value.title);
+    formData.append('description', this.form.value.description);
+
+    Object.values(this.form.value.images).forEach((image: any) => {
+      formData.append('images', image);
+    });
+
+    this._postService.createPost(formData).subscribe((response: any) => {
       console.log(response);
       this._postService.onPostCreated();
       this._router.navigate(['/posts']);
