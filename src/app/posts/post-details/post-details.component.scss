@@ -1,0 +1,162 @@
+.posts-container {
+  text-align: left;
+  height: calc(100vh - 85px);
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.posts-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.posts-container {
+  -ms-overflow-style: none;
+}
+
+.user-detail-card {
+  padding-top: 20px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: auto;
+  }
+}
+
+.post-container {
+  background-color: white;
+  margin-bottom: 20px;
+  padding: 1% 0;
+  font-weight: 400;
+  font-family: 'DynaPuff', cursive;
+}
+
+
+.user-info-section {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.user-img-section {
+  .user-img {
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+
+  .alt-user-img {
+    font-size: 24px;
+    font-weight: 700;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: blue;
+    color: white;
+    padding-top: 4px;
+  }
+}
+
+.user-info {
+  text-align: left;
+  margin-left: 20px;
+
+  .user-name {
+    font-weight: 700;
+  }
+
+  .user-work-info {
+    color: rgba(0,0,0,0.8);
+  }
+}
+
+hr {
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+}
+
+.post-detail-card {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 300px;
+  }
+
+  .card-text {
+    text-align: left;
+  }
+}
+
+.comment-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-group {
+  display: flex;
+
+  .btn {
+    width: max-content;
+    max-width: 150px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+}
+
+.comment-section {
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+}
+
+.col-5 {
+  height: calc(100vh - 85px);
+  overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.col-5::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.col-5 {
+  -ms-overflow-style: none;
+}
+
+.comment-heading {
+  text-align: left;
+  font-size: 20px;
+}
+
+.user-comment {
+  text-align: left;
+  font-size: 14px;
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+
+  textarea {
+    resize: none;
+    height: 100px;
+  }
+}
+
+.post-comment-btn {
+  width: 95%;
+  position: relative;
+  left: 2.5%;
+  text-align: right;
+  margin-top: 15px;
+
+  button {
+    padding: 5px 15px;
+  }
+}

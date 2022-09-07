@@ -1,0 +1,76 @@
+<form class="form" [formGroup]="form" (submit)="createPost()">
+  <div class="mb-3">
+    <label for="postTitle" class="form-label">Post title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="postTitle"
+      placeholder="Give a title to your post"
+      formControlName="title"
+      required
+    >
+    <div class="valid" *ngIf="form.get('title')?.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="form.get('title')?.touched && form.get('title')?.invalid">
+      You must give a title before submitting.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      placeholder="Describe your post"
+      formControlName="description"
+      required
+    ></textarea>
+    <div class="valid" *ngIf="form.get('description')?.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="form.get('description')?.touched && form.get('description')?.invalid">
+      You must give a description before submitting.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="userEmail" class="form-label">Upload Images</label>
+    <br>
+    <button type="button" class="btn btn-dark img-upload-btn" (click)="imageInput.click()">Browse</button>
+    <input
+      type="file"
+      accept="image/x-png,image/gif,image/jpeg,image/jpg"
+      multiple
+      class="form-control"
+      id="userEmail"
+      placeholder="Enter your email"
+      style="visibility: hidden;"
+      (change)="onUploadImages($event)"
+      #imageInput
+    >
+  </div>
+  <div class="mb-2 image-preview" *ngIf="postImages.length > 0 && form.get('images')?.valid">
+    <div class="image-container" *ngFor="let image of postImages">
+      <img [src]="image" [alt]="form.get('title')">
+    </div>
+  </div>
+  <div class="mb-2 submit-button">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      *ngIf="!isLoading"
+      [disabled]="
+        form.get('title')?.invalid ||
+        form.get('description')?.invalid
+      "
+    >
+      Create Post
+    </button>
+
+    <button class="btn btn-primary" type="button" *ngIf="isLoading" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button>
+  </div>
+</form>
