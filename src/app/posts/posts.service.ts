@@ -29,4 +29,8 @@ export class PostsService {
   getAllPosts() {
     return this.http.get(environment.baseUrl + '/posts');
   }
+
+  getPostDataByPostId(postId: string) {
+    return this.http.get(environment.baseUrl + `/posts/${postId}`);
+  }
 }

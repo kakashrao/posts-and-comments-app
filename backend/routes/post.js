@@ -44,4 +44,27 @@ router.get("/", (req, res, next) => {
     })
 })
 
+router.get("/:id", (req, res) => {
+  // console.log(req);
+  const postId = req.params['id'];
+  Post.findById(postId)
+    .then((post) => {
+      if(post) {
+        console.log(post);
+        res.status(200).json({
+          post: post
+        });
+      } else {
+        res.status(404).json({
+          message: "Post not found"
+        })
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Server error, please try again later"
+      })
+    })
+})
+
 module.exports = router;

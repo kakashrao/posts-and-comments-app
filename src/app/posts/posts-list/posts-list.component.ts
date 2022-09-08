@@ -59,7 +59,7 @@ export class PostsListComponent implements OnInit {
     post.showFullText = flag;
   }
 
-  showPostDetails() {
-    this._router.navigate(['/post']);
+  showPostDetails(post:any) {
+    this._router.navigate([`/post/${post.postId}`]);
   }
 }

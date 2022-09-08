@@ -13,7 +13,6 @@ import { SignupComponent } from './user/signup/signup.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CloudinaryModule } from '@cloudinary/ng';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,8 +28,7 @@ import { CloudinaryModule } from '@cloudinary/ng';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    CloudinaryModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
