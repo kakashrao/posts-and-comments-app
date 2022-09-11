@@ -1,24 +1,136 @@
-<form>
+<form (submit)="onSignup(signUpForm)" #signUpForm="ngForm">
+  <div class="mb-3">
+    <div class="default-img" *ngIf="!userPreviewImage" (click)="profileInput.click()">
+      <img src="../../../assets/images/user/cloud-plus.svg" alt="Add Image">
+      <input
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg,image/jpg"
+        (change)="onUploadProfile($event)"
+        style="display: none;"
+        #profileInput
+      >
+    </div>
+    <div class="user-img" *ngIf="userPreviewImage">
+      <img [src]="userPreviewImage" [alt]="">
+
+      <span (click)="profileInput.click()">
+        <img src="../../../assets/images/common/edit-icon.svg" alt="Edit">
+      </span>
+      <input type="file" (change)="onUploadProfile($event)" style="display: none;" #profileInput>
+    </div>
+  </div>
   <div class="mb-3">
     <label for="userName" class="form-label">Name</label>
-    <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+    <input
+      type="text"
+      class="form-control"
+      id="userName"
+      name="userName"
+      ngModel
+      placeholder="Enter your name"
+      required
+      #userName="ngModel"
+    >
+    <div class="valid" *ngIf="userName.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userName.touched && userName.invalid">
+      Please enter your name
+    </div>
   </div>
   <div class="mb-3">
     <label for="userProfession" class="form-label">Tell us about your profession</label>
-    <input type="text" class="form-control" id="userProfession" placeholder="Enter your profession">
+    <input
+      type="text"
+      class="form-control"
+      id="userProfession"
+      name="userProfession"
+      ngModel
+      placeholder="About your profession"
+      required
+      #userProfession="ngModel"
+    >
+    <div class="valid" *ngIf="userProfession.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userProfession.touched && userProfession.invalid">
+      Please enter your professional details
+    </div>
   </div>
   <div class="mb-3">
     <label for="userBio" class="form-label">Write an interesting bio</label>
-    <textarea class="form-control" id="userBio"></textarea>
+    <textarea
+      class="form-control"
+      id="userBio"
+      name="userBio"
+      ngModel
+      required
+      #userBio="ngModel"
+    >
+    </textarea>
+    <div class="valid" *ngIf="userBio.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userBio.touched && userBio.invalid">
+      Please write a bio
+    </div>
   </div>
   <div class="mb-3">
     <label for="userEmail" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="userEmail" placeholder="Enter your email">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <input
+      type="email"
+      class="form-control"
+      id="userEmail"
+      name="userEmail"
+      ngModel
+      placeholder="Enter your email"
+      required
+      #userEmail="ngModel"
+    >
+    <div class="valid" *ngIf="userEmail.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userEmail.touched && userEmail.invalid">
+      You must give an email before submitting.
+    </div>
   </div>
   <div class="mb-3">
     <label for="userPass" class="form-label">Password</label>
-    <input type="password" class="form-control" id="userPass" placeholder="Enter your password">
+    <input
+      type="password"
+      class="form-control"
+      id="userPass"
+      name="userPassword"
+      ngModel
+      placeholder="Enter your password"
+      required
+      #userPassword="ngModel"
+    >
+    <div class="valid" *ngIf="userPassword.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userPassword.touched && userPassword.invalid">
+      You must give a password before submitting.
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Sign Up</button>
+  <div class="mb-3 submit-btn">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="
+        !userName.valid ||
+        !userProfession.valid ||
+        !userBio.valid ||
+        !userEmail.valid ||
+        !userPassword
+      "
+    >
+      Sign Up
+    </button>
+  </div>
 </form>

@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'posts-and-comments-app',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'svg']
+    allowed_formats: ['jpg', 'jpeg', 'png']
   }
 })
 
