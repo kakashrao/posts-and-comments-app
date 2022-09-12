@@ -33,4 +33,8 @@ export class PostsService {
   getPostDataByPostId(postId: string) {
     return this.http.get(environment.baseUrl + `/posts/${postId}`);
   }
+
+  getUserDataByUserId(userId: string | null) {
+    return this.http.get(environment.baseUrl + `/user/${userId}`);
+  }
 }

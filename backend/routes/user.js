@@ -74,4 +74,24 @@ router.put("/", async (req, res) => {
   }
 })
 
+router.get("/:userId", async (req, res) => {
+  const user = await User.findOne({ _id: req.params.userId });
+
+  if(user) {
+    res.status(200).json({
+      userData : {
+        id: user._id,
+        name: user.name,
+        profession: user.profession,
+        bio: user.bio,
+        imageUrl: user.imageUrl
+      }
+    })
+  } else {
+    res.status(404).json({
+      message: "User not found"
+    })
+  }
+})
+
 module.exports = router;

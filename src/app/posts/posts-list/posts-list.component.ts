@@ -4,6 +4,7 @@ import { PostsService } from "../posts.service";
 
 import { Post } from "../post.model";
 import { map } from "rxjs";
+import { StorageService } from "src/app/services/storage.service";
 
 @Component({
   templateUrl: './posts-list.component.html',
@@ -13,7 +14,8 @@ export class PostsListComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _postsService: PostsService
+    private _postsService: PostsService,
+    private _storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -25,15 +27,15 @@ export class PostsListComponent implements OnInit {
       this.isPostCreated = false;
     }, 1000)
 
-    this.getAllPosts();
+    this.getUserDetails();
   }
 
   isPostCreated: boolean = false;
   postsList: any[] = [];
+  userDetails: any = null;
 
   postLoading: boolean = false;
   getAllPosts() {
-    this.postLoading = true;
     this._postsService.getAllPosts().pipe(map((postData : any) => {
       return {
         posts: postData.posts.map((element: { _id: string; title: string; description: string; images: any }) => {
@@ -53,6 +55,26 @@ export class PostsListComponent implements OnInit {
     }, error => {
       this.postLoading = false;
     })
+  }
+
+  getUserDetails() {
+    const userId = this._storageService.getUserId();
+
+    this.postLoading = true;
+
+    if(userId) {
+      this._postsService.getUserDataByUserId(userId).subscribe((response: any) => {
+        this.userDetails = response.userData;
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        this.getAllPosts();
+      })
+    } else {
+      this.getAllPosts();
+    }
   }
 
   showMoreDescription(post: any, flag: boolean) {
