@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { LandingService } from "src/app/landing-console/landing.service";
 import { UserService } from "../user.service";
 
 @Component({
@@ -11,6 +12,7 @@ export class SignupComponent {
 
   constructor(
     private _userService: UserService,
+    private _landingService: LandingService,
     private _router: Router
   ) {}
 
@@ -47,7 +49,8 @@ export class SignupComponent {
     formData.append("password", signupForm.value.userPassword);
 
     this._userService.createUser(formData).subscribe((response: any) => {
-      console.log(response);
+      this._landingService.checkAuthentication();
+
       this._router.navigate(['/posts']);
     },
     error => {

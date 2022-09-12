@@ -24,7 +24,7 @@
         </li>
       </ul>
       <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!isAuthenticated">
           <a
             class="nav-link"
             aria-current="page"
@@ -32,7 +32,7 @@
             routerLinkActive="active"
           >Signup</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!isAuthenticated">
           <a
             class="nav-link"
             aria-current="page"
@@ -40,8 +40,8 @@
             routerLinkActive="active"
           >Login</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link">Logout</a>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link" (click)="logoutUser()" >Logout</a>
         </li>
       </ul>
     </div>

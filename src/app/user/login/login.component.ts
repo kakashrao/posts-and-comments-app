@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { LandingService } from "src/app/landing-console/landing.service";
 import { StorageService } from "src/app/services/storage.service";
 import { UserService } from "../user.service";
 
@@ -13,7 +14,8 @@ export class LoginComponent {
   constructor(
     private _userService: UserService,
     private _router: Router,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _landingService: LandingService,
   ) {}
 
   isLoading: boolean = false;
@@ -39,6 +41,8 @@ export class LoginComponent {
       this._storageService.setUserProfession(response.userData.profession);
       this._storageService.setUserBio(response.userData.bio);
       this._storageService.setToken(response.userData.token);
+
+      this._landingService.checkAuthentication();
 
       this._router.navigate(['/posts']);
     },

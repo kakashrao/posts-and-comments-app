@@ -72,4 +72,8 @@ export class StorageService {
     }
     return null;
   }
+
+  removeFromLocalStorage(body: string) {
+    localStorage.removeItem(body);
+  }
 }
