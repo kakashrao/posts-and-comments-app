@@ -122,6 +122,7 @@
     <button
       type="submit"
       class="btn btn-primary"
+      *ngIf="!isLoading"
       [disabled]="
         !userName.valid ||
         !userProfession.valid ||
@@ -131,6 +132,11 @@
       "
     >
       Sign Up
+    </button>
+
+    <button class="btn btn-primary" type="button" *ngIf="isLoading" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      Loading...
     </button>
   </div>
 </form>

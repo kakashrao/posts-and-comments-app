@@ -13,6 +13,10 @@ export class UserService {
   ) {}
 
   createUser(userData: FormData) {
-    return this.http.post(environment.baseUrl + '/user', userData)
+    return this.http.post(environment.baseUrl + '/user', userData);
+  }
+
+  loginUser(userData: {email: string, password: string}) {
+    return this.http.put(environment.baseUrl + '/user', userData);
   }
 }

@@ -29,10 +29,13 @@ export class SignupComponent {
     reader.readAsDataURL(this.file);
   }
 
+  isLoading: boolean = false;
   onSignup(signupForm: NgForm) {
     if(!signupForm.valid) {
       return;
     }
+
+    this.isLoading = true;
 
     const formData = new FormData();
 
@@ -48,6 +51,7 @@ export class SignupComponent {
       this._router.navigate(['/posts']);
     },
     error => {
+      this.isLoading = false;
       console.log(error);
     })
   }
