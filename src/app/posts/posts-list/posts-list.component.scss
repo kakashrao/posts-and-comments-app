@@ -121,3 +121,42 @@ hr {
   position: relative;
   top: 20%;
 }
+
+.empty-page {
+  min-height: calc(100vh - 100px);
+  background-color: white;
+  padding: 2%;
+  border-radius: 4px;
+
+  .empty-page-img {
+    text-align: center;
+    margin-bottom: 50px;
+
+    img {
+      width: 80%;
+      height: 50vh;
+    }
+  }
+
+  .empty-page-title {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .empty-page-text {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .create-post-btn {
+    text-align: center;
+
+    button {
+      border: none;
+      border-radius: 3px;
+      padding: 5px 15px;
+      background-color: black;
+      color: white;
+    }
+  }
+}

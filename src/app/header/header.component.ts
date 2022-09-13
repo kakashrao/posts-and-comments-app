@@ -41,6 +41,6 @@ export class HeaderComponent implements OnInit {
     this._storageService.removeFromLocalStorage('userName');
     this._storageService.removeFromLocalStorage('token');
 
-    this.isAuthenticated = false;
+    this._landingService.checkAuthentication();
   }
 }

@@ -1,7 +1,7 @@
 <div class="container text-center">
   <div class="row justify-content-center" *ngIf="!postLoading; else spinner">
     <div class="col-4">
-      <div class="card user-detail-card">
+      <div class="card user-detail-card" *ngIf="userDetails">
         <img
           [src]="userDetails.imageUrl"
           [alt]="userDetails.name"
@@ -12,7 +12,16 @@
           <h6 class="card-subtitle mb-2 text-muted">{{ userDetails.profession | titlecase }}</h6>
           <p class="card-text">{{ userDetails.bio }}</p>
           <a href="#" class="card-link">Edit Profile</a>
-          <!-- <a href="#" class="card-link"></a> -->
+        </div>
+      </div>
+
+      <div class="card user-detail-card" *ngIf="!userDetails">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <h6 class="card-subtitle mb-2 text-muted">You are not logged in</h6>
+          <p class="card-text">Please signup or login to</p>
+          <a href="#" class="card-link" routerLink="/signup">Sign up</a>
+          <a href="#" class="card-link" routerLink="/login">Login</a>
         </div>
       </div>
     </div>
@@ -21,71 +30,85 @@
         <strong>Hurray! </strong> Post Created Successfully, check it out
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      <ng-container *ngFor="let post of postsList">
-        <div class="row post-container">
-          <div class="user-info-section">
-            <div class="user-img-section">
-              <!-- <div class="user-img" *ngIf="post.userImg">
-                <img [src]="post.postImage" alt="User">
-              </div>
-              <div class="alt-user-img" *ngIf="!post.postImage">A</div> -->
-              <div class="alt-user-img">A</div>
-            </div>
-            <div class="user-info">
-              <div class="user-name">Akash</div>
-              <div class="user-work-info">B.Tech Mechanical</div>
-            </div>
-          </div>
-          <hr>
-          <div class="card post-detail-card">
-            <div class="card-body">
-              <div class="card-title">{{ post.title }}</div>
-              <ng-container *ngIf="!post?.showFullText">
-                <p class="card-text">{{ post.description.substring(0, 100) }} <span *ngIf="post.description.length > 100" (click)="showMoreDescription(post, true)">...show more</span></p>
-              </ng-container>
-              <ng-container *ngIf="post.showFullText">
-                <p class="card-text">{{ post.description }} <span (click)="showMoreDescription(post, false)">...show less</span></p>
-              </ng-container>
-            </div>
-
-            <ng-container *ngIf="post.images && post.images.length > 0">
-              <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <ng-container *ngFor="let image of post.images; let i = index">
-                    <div class="carousel-item" [ngClass]="i == 0 ? 'active' : ''">
-                      <img [src]="image.url" class="d-block w-100" [alt]="image.fileName">
-                    </div>
-                  </ng-container>
+      <ng-container *ngIf="postsList && postsList.length > 0; else NoPosts">
+        <ng-container *ngFor="let post of postsList">
+          <div class="row post-container">
+            <div class="user-info-section">
+              <div class="user-img-section">
+                <!-- <div class="user-img" *ngIf="post.userImg">
+                  <img [src]="post.postImage" alt="User">
                 </div>
-                <ng-container *ngIf="post.images.length > 1">
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
+                <div class="alt-user-img" *ngIf="!post.postImage">A</div> -->
+                <div class="alt-user-img">A</div>
+              </div>
+              <div class="user-info">
+                <div class="user-name">Akash</div>
+                <div class="user-work-info">B.Tech Mechanical</div>
+              </div>
+            </div>
+            <hr>
+            <div class="card post-detail-card">
+              <div class="card-body">
+                <div class="card-title">{{ post.title }}</div>
+                <ng-container *ngIf="!post?.showFullText">
+                  <p class="card-text">{{ post.description.substring(0, 100) }} <span *ngIf="post.description.length > 100" (click)="showMoreDescription(post, true)">...show more</span></p>
+                </ng-container>
+                <ng-container *ngIf="post.showFullText">
+                  <p class="card-text">{{ post.description }} <span (click)="showMoreDescription(post, false)">...show less</span></p>
                 </ng-container>
               </div>
-            </ng-container>
-            <ul class="list-group list-group-flush" (click)="showPostDetails(post)">
-              <li class="list-group-item">
-                <div class="comment-info">
-                  <div class="comment-users">Akash & 23 Others</div>
-                  <div class="comment-num">24 Comments</div>
+
+              <ng-container *ngIf="post.images && post.images.length > 0">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <ng-container *ngFor="let image of post.images; let i = index">
+                      <div class="carousel-item" [ngClass]="i == 0 ? 'active' : ''">
+                        <img [src]="image.url" class="d-block w-100" [alt]="image.fileName">
+                      </div>
+                    </ng-container>
+                  </div>
+                  <ng-container *ngIf="post.images.length > 1">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </ng-container>
                 </div>
-              </li>
-              <li class="list-group-item">
-                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                  <button type="button" class="btn btn-danger">Like</button>
-                  <button type="button" class="btn btn-warning">Comment</button>
-                </div>
-              </li>
-            </ul>
+              </ng-container>
+              <ul class="list-group list-group-flush" (click)="showPostDetails(post)">
+                <li class="list-group-item">
+                  <div class="comment-info">
+                    <div class="comment-users">Akash & 23 Others</div>
+                    <div class="comment-num">24 Comments</div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn btn-danger">Like</button>
+                    <button type="button" class="btn btn-warning">Comment</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </ng-container>
+      <ng-template #NoPosts>
+        <div class="empty-page">
+          <div class="empty-page-img">
+            <img src="../../../assets/images/post/no-posts.avif" alt="">
+          </div>
+          <h2 class="empty-page-title">Looks like there are no posts here !!</h2>
+          <p class="empty-page-text">Come! Take charge and create beautiful posts</p>
+          <div class="create-post-btn">
+            <button routerLink="/create-post">Create Post</button>
+          </div>
+         </div>
+      </ng-template>
     </div>
   </div>
   <ng-template #spinner>

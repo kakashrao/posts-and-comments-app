@@ -5,6 +5,7 @@ import { PostsService } from "../posts.service";
 import { Post } from "../post.model";
 import { map } from "rxjs";
 import { StorageService } from "src/app/services/storage.service";
+import { LandingService } from "src/app/landing-console/landing.service";
 
 @Component({
   templateUrl: './posts-list.component.html',
@@ -15,12 +16,17 @@ export class PostsListComponent implements OnInit {
   constructor(
     private _router: Router,
     private _postsService: PostsService,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _landingService: LandingService
   ) {}
 
   ngOnInit(): void {
     this._postsService.getPostCreatedObs().subscribe((isPostCreated: boolean) => {
       this.isPostCreated = isPostCreated;
+    })
+
+    this._landingService.getCheckAuthSub().subscribe(() => {
+      this.getUserDetails();
     })
 
     setTimeout(() => {
@@ -73,6 +79,7 @@ export class PostsListComponent implements OnInit {
         this.getAllPosts();
       })
     } else {
+      this.userDetails = null;
       this.getAllPosts();
     }
   }
