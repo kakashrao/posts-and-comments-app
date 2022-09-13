@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { StorageService } from "src/app/services/storage.service";
 import { Post } from "../post.model";
 import { PostsService } from "../posts.service";
 
@@ -13,12 +14,20 @@ export class PostCreateComponent implements OnInit {
   constructor(
     private _postService: PostsService,
     private _router : Router,
+    private _storageService: StorageService
   ) {}
 
   form: FormGroup = new FormGroup({})
   postImages : any[] = [];
 
   ngOnInit() : void {
+    const userId = this._storageService.getUserId();
+
+    if(!userId) {
+      this._router.navigate(['/posts']);
+      return;
+    }
+
     this.form = new FormGroup({
       title: new FormControl('', {
         validators: [ Validators.required, Validators.minLength(3)]

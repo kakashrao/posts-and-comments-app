@@ -1,20 +1,31 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LandingService } from "src/app/landing-console/landing.service";
+import { StorageService } from "src/app/services/storage.service";
 import { UserService } from "../user.service";
 
 @Component({
   templateUrl: "./signup.component.html",
   styleUrls: ["./signup.component.scss"],
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
     private _landingService: LandingService,
-    private _router: Router
+    private _router: Router,
+    private _storageService: StorageService
   ) {}
+
+  ngOnInit(): void {
+    const userId = this._storageService.getUserId();
+
+    if(userId) {
+      this._router.navigate(['/posts']);
+      return;
+    }
+  }
 
   userPreviewImage: any = '';
 

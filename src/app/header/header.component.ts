@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { APP_BOOTSTRAP_LISTENER, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { LandingService } from "../landing-console/landing.service";
 import { StorageService } from "../services/storage.service";
 
@@ -11,10 +12,13 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private _landingService: LandingService,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _router: Router
   ) {}
 
   isAuthenticated: boolean = false;
+  toastShow: boolean = false;
+  userId: string | null = '';
 
   ngOnInit(): void {
     this._landingService.getCheckAuthSub().subscribe(() => {
@@ -27,12 +31,20 @@ export class HeaderComponent implements OnInit {
         }
     })
 
-    const userId = this._storageService.getUserId();
+    this._landingService.checkAuthentication();
+  }
 
-    if(userId) {
-      this.isAuthenticated = true;
+  checkAuth() {
+    this.userId = this._storageService.getUserId();
+
+    if(!this.userId) {
+      this.toastShow = true;
+
+      setTimeout(() => {
+        this.toastShow = false;
+      }, 2000)
     } else {
-      this.isAuthenticated = false;
+      this.toastShow = false;
     }
   }
 
@@ -40,7 +52,9 @@ export class HeaderComponent implements OnInit {
     this._storageService.removeFromLocalStorage('userId');
     this._storageService.removeFromLocalStorage('userName');
     this._storageService.removeFromLocalStorage('token');
+    this.userId = null;
 
     this._landingService.checkAuthentication();
+    this._router.navigate(['/posts']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LandingService } from "src/app/landing-console/landing.service";
@@ -9,7 +9,7 @@ import { UserService } from "../user.service";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
@@ -17,6 +17,15 @@ export class LoginComponent {
     private _storageService: StorageService,
     private _landingService: LandingService,
   ) {}
+
+  ngOnInit(): void {
+    const userId = this._storageService.getUserId();
+
+    if(userId) {
+      this._router.navigate(['/posts']);
+      return;
+    }
+  }
 
   isLoading: boolean = false;
 
