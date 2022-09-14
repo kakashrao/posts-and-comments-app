@@ -53,7 +53,6 @@ router.put("/", async (req, res) => {
         res.status(200).json({
           userData : {
             token: token,
-            expiresIn: 3600,
             id: user._id,
             name: user.name,
             profession: user.profession,

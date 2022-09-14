@@ -73,6 +73,14 @@ export class StorageService {
     return null;
   }
 
+  clearAuthData() {
+    this.removeFromLocalStorage('userId');
+    this.removeFromLocalStorage('userName');
+    this.removeFromLocalStorage('userBio');
+    this.removeFromLocalStorage('userProfession');
+    this.removeFromLocalStorage('token');
+  }
+
   removeFromLocalStorage(body: string) {
     localStorage.removeItem(body);
   }
