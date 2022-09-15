@@ -6,7 +6,9 @@
           [src]="userDetails.imageUrl"
           [alt]="userDetails.name"
           class="card-img-top"
+          *ngIf="userDetails.imageUrl"
         >
+        <div class="alt-card-img" *ngIf="!userDetails.imageUrl">{{ userDetails.name.substring(0, 1) }}</div>
         <div class="card-body">
           <h5 class="card-title">{{ userDetails.name | titlecase }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ userDetails.profession | titlecase }}</h6>
@@ -35,15 +37,14 @@
           <div class="row post-container">
             <div class="user-info-section">
               <div class="user-img-section">
-                <!-- <div class="user-img" *ngIf="post.userImg">
-                  <img [src]="post.postImage" alt="User">
+                <div class="user-img" *ngIf="post.creator.imageUrl">
+                  <img [src]="post.creator.imageUrl" alt="User">
                 </div>
-                <div class="alt-user-img" *ngIf="!post.postImage">A</div> -->
-                <div class="alt-user-img">A</div>
+                <div class="alt-user-img" *ngIf="!post.creator.imageUrl">{{ post.creator.name.substring(0, 1) }}</div>
               </div>
               <div class="user-info">
-                <div class="user-name">Akash</div>
-                <div class="user-work-info">B.Tech Mechanical</div>
+                <div class="user-name">{{ post.creator.name }}</div>
+                <div class="user-work-info">{{ post.creator.profession }}</div>
               </div>
             </div>
             <hr>

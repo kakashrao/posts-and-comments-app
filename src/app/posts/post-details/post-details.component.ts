@@ -40,16 +40,6 @@ export class PostDetailsComponent implements OnInit {
 
   getPostDetails(postId: string) {
     this._postService.getPostDataByPostId(postId)
-      .pipe(map((response: any) => {
-        return {
-          post: {
-            postId: response.post._id,
-            title: response.post.title,
-            description: response.post.description,
-            images: response.post.images,
-          }
-        }
-      }))
       .subscribe((response: any) => {
         console.log(response);
         this.postData = response.post;

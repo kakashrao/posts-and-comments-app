@@ -38,11 +38,30 @@ router.post("/", checkAuth, upload.array('images') , (req, res, next) => {
 })
 
 router.get("/", (req, res, next) => {
-  Post.find()
+  Post.find().populate('creator')
     .then((results) => {
-      // console.log(results);
+      console.log(results);
+      let posts = [];
+
+      if(results.length > 0) {
+        posts = results.map((post) => {
+          return {
+            postId: post._id,
+            title: post.title,
+            description: post.description,
+            images: post.images,
+            creator: {
+              id: post.creator._id,
+              name: post.creator.name,
+              profession: post.creator.profession,
+              imageUrl: post.creator.imageUrl
+            }
+          }
+        })
+      }
+
       res.status(200).json({
-        posts: results
+        posts: posts
       });
     })
 })
@@ -50,12 +69,25 @@ router.get("/", (req, res, next) => {
 router.get("/:id", (req, res) => {
   // console.log(req);
   const postId = req.params['id'];
-  Post.findById(postId)
+  Post.findById(postId).populate('creator')
     .then((post) => {
+
       if(post) {
-        console.log(post);
+        const postData = {
+          postId: post._id,
+          title: post.title,
+          description: post.description,
+          images: post.images,
+          creator: {
+            id: post.creator._id,
+            name: post.creator.name,
+            profession: post.creator.profession,
+            imageUrl: post.creator.imageUrl
+          }
+        }
+
         res.status(200).json({
-          post: post
+          post: postData
         });
       } else {
         res.status(404).json({

@@ -4,15 +4,14 @@
         <div class="row post-container">
           <div class="user-info-section">
             <div class="user-img-section">
-              <!-- <div class="user-img" *ngIf="postData.userImg">
-                <img [src]="postData.postImage" alt="User">
-              </div> -->
-              <!-- <div class="alt-user-img" *ngIf="!postData.postImage">A</div> -->
-              <div class="alt-user-img">A</div>
+              <div class="user-img" *ngIf="postData.creator.imageUrl">
+                <img [src]="postData.creator.imageUrl" alt="User">
+              </div>
+              <div class="alt-user-img" *ngIf="!postData.creator.imageUrl">{{ postData.creator.name.substring(0, 1) }}</div>
             </div>
             <div class="user-info">
-              <div class="user-name">Akash</div>
-              <div class="user-work-info">B.Tech Mechanical</div>
+              <div class="user-name">{{ postData.creator.name }}</div>
+              <div class="user-work-info">{{ postData.creator.profession }}</div>
             </div>
           </div>
           <hr>

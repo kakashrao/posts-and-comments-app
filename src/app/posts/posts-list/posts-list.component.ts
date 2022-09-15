@@ -42,18 +42,7 @@ export class PostsListComponent implements OnInit {
 
   postLoading: boolean = false;
   getAllPosts() {
-    this._postsService.getAllPosts().pipe(map((postData : any) => {
-      return {
-        posts: postData.posts.map((element: { _id: string; title: string; description: string; images: any }) => {
-          return {
-            postId: element._id,
-            title: element.title,
-            description: element.description,
-            images: element.images
-          }
-        })
-      }
-    })).subscribe((response: any) => {
+    this._postsService.getAllPosts().subscribe((response: any) => {
       console.log(response);
       this.postsList = response.posts;
 
