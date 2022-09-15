@@ -7,7 +7,9 @@ const upload = multer({ storage });
 
 const Post = require('../models/post');
 
-router.post("/", upload.array('images') , (req, res, next) => {
+const checkAuth = require('../middlewares/check-auth');
+
+router.post("/", checkAuth, upload.array('images') , (req, res, next) => {
   const postData = req.body;
   const postImages = [];
 
@@ -23,7 +25,8 @@ router.post("/", upload.array('images') , (req, res, next) => {
   const post = new Post({
     title: postData.title,
     description: postData.description,
-    images: postImages
+    images: postImages,
+    creator: req.userData.userId
   });
 
   post.save()
