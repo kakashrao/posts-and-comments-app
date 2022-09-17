@@ -27,6 +27,12 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  hide : boolean = true;
+
+  showHidePassword() {
+    this.hide = !this.hide;
+  }
+
   userPreviewImage: any = '';
 
   file: any;
@@ -60,6 +66,29 @@ export class SignupComponent implements OnInit {
     formData.append("password", signupForm.value.userPassword);
 
     this._userService.createUser(formData).subscribe((response: any) => {
+      this.loginUser(signupForm.value.userEmail, signupForm.value.userPassword);
+
+    },
+    error => {
+      this.isLoading = false;
+      console.log(error);
+    })
+  }
+
+  loginUser(userEmail: string, password: string) {
+    const userData = {
+      email: userEmail,
+      password: password
+    }
+
+    this._userService.loginUser(userData).subscribe((response: any) => {
+
+      this._storageService.setUserId(response.userData.id);
+      this._storageService.setUserName(response.userData.name);
+      this._storageService.setUserProfession(response.userData.profession);
+      this._storageService.setUserBio(response.userData.bio);
+      this._storageService.setToken(response.userData.token);
+
       this._landingService.checkAuthentication();
 
       this._router.navigate(['/posts']);

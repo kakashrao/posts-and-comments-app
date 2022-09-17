@@ -27,6 +27,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  hide : boolean = true;
+
+  showHidePassword() {
+    this.hide = !this.hide;
+  }
+
   isLoading: boolean = false;
 
   onLogin(loginForm: NgForm) {

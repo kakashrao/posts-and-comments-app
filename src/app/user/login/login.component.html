@@ -21,8 +21,9 @@
   </div>
   <div class="mb-3">
     <label for="userPass" class="form-label">Password</label>
+    <div class="input-group">
     <input
-     type="password"
+    [type]="hide ? 'password' : 'text'"
      class="form-control"
      id="userPass"
      name="userPassword"
@@ -31,6 +32,11 @@
     required
     #userPassword="ngModel"
     >
+    <span class="input-group-text">
+      <img src="../../../assets/images/common/eye-fill.svg" alt="" (click)="showHidePassword()" *ngIf="!hide">
+      <img src="../../../assets/images/common/eye-slash-fill.svg" alt="" (click)="showHidePassword()" *ngIf="hide">
+    </span>
+  </div>
     <div class="valid" *ngIf="userPassword.valid">
       Looks good!
     </div>

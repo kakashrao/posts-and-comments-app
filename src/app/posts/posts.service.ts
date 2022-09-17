@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
+import { Subject } from "rxjs";
 
 import { environment } from "../../environments/environment";
-import { Post } from "./post.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  private postCreated = new BehaviorSubject<boolean>(false);
+  private postCreated = new Subject<boolean>();
 
   onPostCreated() {
     this.postCreated.next(true);

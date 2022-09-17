@@ -26,3 +26,24 @@ textarea {
   top: 4px;
   font-size: 13px;
 }
+
+.input-group {
+  position: relative;
+
+  input {
+    z-index: 1;
+  }
+
+  .input-group-text {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border: none;
+
+    img {
+      cursor: pointer;
+      z-index: 2;
+    }
+  }
+}
