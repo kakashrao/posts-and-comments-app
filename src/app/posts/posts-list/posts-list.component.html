@@ -46,6 +46,10 @@
                 <div class="user-name">{{ post.creator.name }}</div>
                 <div class="user-work-info">{{ post.creator.profession }}</div>
               </div>
+              <div class="d-grid gap-2 d-md-block action-btns" *ngIf="userDetails && userDetails.id === post.creator.id">
+                <button class="btn btn-primary" type="button">Edit</button>
+                <button class="btn btn-danger" type="button">Delete</button>
+              </div>
             </div>
             <hr>
             <div class="card post-detail-card">

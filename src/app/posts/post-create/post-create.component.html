@@ -51,8 +51,14 @@
     >
   </div>
   <div class="mb-2 image-preview" *ngIf="postImages.length > 0 && form.get('images')?.valid">
-    <div class="image-container" *ngFor="let image of postImages">
-      <img [src]="image" [alt]="form.get('title')">
+    <div class="image-container" *ngFor="let image of postImages; index as postImgIndex">
+      <img [src]="image" [alt]="form.get('title')" class="post-img">
+      <img
+        src="../../../assets/images/common/close_button.svg"
+        alt="Delete"
+        class="delete-img"
+        (click)="deletePostImage(postImgIndex)"
+      >
     </div>
   </div>
   <div class="mb-2 submit-button">

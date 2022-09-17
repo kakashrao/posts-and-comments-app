@@ -51,7 +51,18 @@
 
 .user-info-section {
   display: flex;
+  align-items: center;
   margin-bottom: 10px;
+
+  .action-btns {
+    flex-grow: 1;
+    text-align: right;
+
+    button {
+      width: 100px;
+      margin-left: 15px;
+    }
+  }
 }
 
 .user-img-section {
@@ -74,6 +85,7 @@
     padding-top: 4px;
     text-align: center;
   }
+
 }
 
 .user-info {

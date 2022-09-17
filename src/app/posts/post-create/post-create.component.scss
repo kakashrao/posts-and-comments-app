@@ -53,12 +53,21 @@ textarea {
   flex-wrap: wrap;
 
   .image-container {
+    position: relative;
     margin-left: 15px;
     margin-bottom: 15px;
 
-    img {
+    .post-img {
       width: 200px;
       height: 200px;
+    }
+
+    .delete-img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      width: 25px;
     }
   }
 }

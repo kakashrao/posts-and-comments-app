@@ -69,6 +69,10 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
+  deletePostImage(index: number) {
+    this.postImages.splice(index, 1);
+  }
+
   isLoading: boolean = false;
   async createPost() {
     if (this.form?.invalid) {
