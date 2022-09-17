@@ -73,6 +73,10 @@ export class PostsListComponent implements OnInit {
     }
   }
 
+  onEditPost(postId : string) {
+    this._router.navigate([`/create-post/${postId}`]);
+  }
+
   showMoreDescription(post: any, flag: boolean) {
     post.showFullText = flag;
   }

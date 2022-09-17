@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { StorageService } from "src/app/services/storage.service";
 import { Post } from "../post.model";
 import { PostsService } from "../posts.service";
@@ -14,11 +14,13 @@ export class PostCreateComponent implements OnInit {
   constructor(
     private _postService: PostsService,
     private _router : Router,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _route: ActivatedRoute
   ) {}
 
   form: FormGroup = new FormGroup({})
   postImages : any[] = [];
+  postId: string = '';
 
   ngOnInit() : void {
     const userId = this._storageService.getUserId();
@@ -36,6 +38,13 @@ export class PostCreateComponent implements OnInit {
         validators: [ Validators.required ]
       }),
       images: new FormControl([])
+    })
+
+    this._route.params.subscribe((params: any) => {
+      if(params['postId']) {
+        this.postId = params['postId'];
+        this.getPostDetails();
+      }
     })
   }
 
@@ -71,6 +80,22 @@ export class PostCreateComponent implements OnInit {
 
   deletePostImage(index: number) {
     this.postImages.splice(index, 1);
+  }
+
+  getPostDetails() {
+    this._postService.getPostDataByPostId(this.postId).subscribe((response: any) => {
+      const postData = response.post;
+
+      this.postImages = postData.images.map((image:any) => {
+        return image.url;
+      })
+
+      this.form.setValue({
+        title: postData.title,
+        description: postData.description,
+        images: this.postImages
+      });
+    })
   }
 
   isLoading: boolean = false;

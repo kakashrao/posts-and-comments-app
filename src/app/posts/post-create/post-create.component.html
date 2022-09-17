@@ -62,17 +62,31 @@
     </div>
   </div>
   <div class="mb-2 submit-button">
-    <button
-      type="submit"
-      class="btn btn-primary"
-      *ngIf="!isLoading"
-      [disabled]="
-        form.get('title')?.invalid ||
-        form.get('description')?.invalid
-      "
-    >
-      Create Post
-    </button>
+    <ng-container *ngIf="!isLoading">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        *ngIf="!postId"
+        [disabled]="
+          form.get('title')?.invalid ||
+          form.get('description')?.invalid
+        "
+      >
+        Create Post
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        *ngIf="postId"
+        [disabled]="
+          form.get('title')?.invalid ||
+          form.get('description')?.invalid
+        "
+      >
+        Update Post
+      </button>
+    </ng-container>
 
     <button class="btn btn-primary" type="button" *ngIf="isLoading" disabled>
       <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
