@@ -67,6 +67,7 @@
         type="submit"
         class="btn btn-primary"
         *ngIf="!postId"
+        (click)="createPost()"
         [disabled]="
           form.get('title')?.invalid ||
           form.get('description')?.invalid
@@ -79,6 +80,7 @@
         type="submit"
         class="btn btn-primary"
         *ngIf="postId"
+        (click)="updatePost()"
         [disabled]="
           form.get('title')?.invalid ||
           form.get('description')?.invalid

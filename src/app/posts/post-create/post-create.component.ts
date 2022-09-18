@@ -48,14 +48,17 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
-  files: any[] = [];
+  sendingFileList: any[] = [];
   async onUploadImages(event: any) {
-    this.files = event.target.files;
-    this.form.patchValue({ images: this.files });
-    this.form.get('images')?.updateValueAndValidity();
-    // console.log(this.form.get('images'));
+    let files = event.target.files;
 
-    for(let file of this.files) {
+    Object.values(files).forEach((file: any) => {
+      this.sendingFileList.push(file);
+    })
+    this.form.patchValue({ images: files });
+    this.form.get('images')?.updateValueAndValidity();
+
+    for(let file of files) {
       await this.readUploadedFile(file)
       .then((result) => {
         // console.log("result", result);
@@ -78,8 +81,18 @@ export class PostCreateComponent implements OnInit {
     })
   }
 
+  deleteImagesList: any[] = [];
+
   deletePostImage(index: number) {
+    let image = this.sendingFileList[index];
+
+    if(image?.url ? image.url : false){
+      this.deleteImagesList.push(image.fileName);
+    }
     this.postImages.splice(index, 1);
+    console.log(this.deleteImagesList);
+    this.sendingFileList.splice(index, 1);
+    // this.form.value.images.splice(index, 1);
   }
 
   getPostDetails() {
@@ -90,10 +103,14 @@ export class PostCreateComponent implements OnInit {
         return image.url;
       })
 
+      postData.images.forEach((image: any) => {
+        this.sendingFileList.push(image);
+      })
+
       this.form.setValue({
         title: postData.title,
         description: postData.description,
-        images: this.postImages
+        images: []
       });
     })
   }
@@ -111,15 +128,44 @@ export class PostCreateComponent implements OnInit {
     formData.append('title', this.form.value.title);
     formData.append('description', this.form.value.description);
 
-    Object.values(this.form.value.images).forEach((image: any) => {
-      formData.append('images', image);
-    });
+    Object.values(this.form.value.images).forEach((file: any) => {
+      formData.append('images', file);
+    })
 
     this._postService.createPost(formData).subscribe((response: any) => {
       console.log(response);
       this._postService.onPostCreated();
       this._router.navigate(['/posts']);
       this.isLoading = false;
+    },
+     error => {
+      this.isLoading = false;
+    })
+  }
+
+  async updatePost() {
+    if (this.form?.invalid) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    const formData = new FormData();
+
+    formData.append('title', this.form.value.title);
+    formData.append('description', this.form.value.description);
+
+    formData.append('deleteImages', JSON.stringify(this.deleteImagesList));
+
+    console.log(this.form.value.images);
+
+    Object.values(this.form.value.images).forEach((file: any) => {
+      formData.append('images', file);
+    })
+
+    this._postService.updatePost(formData, this.postId).subscribe((response: any) => {
+      console.log(response);
+      this._router.navigate(['/posts']);
     },
      error => {
       this.isLoading = false;

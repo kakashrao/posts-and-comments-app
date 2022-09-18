@@ -1,13 +1,17 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 
 const multer = require('multer');
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage });
+const  { cloudinary } = require('../cloudinary/index');
 
 const Post = require('../models/post');
 
-const checkAuth = require('../middlewares/check-auth');
+const { checkAuth, isCreator, parseObj } = require('../middlewares/check-auth');
+
+app.use(express.json);
 
 router.post("/", checkAuth, upload.array('images') , (req, res, next) => {
   const postData = req.body;
@@ -35,6 +39,42 @@ router.post("/", checkAuth, upload.array('images') , (req, res, next) => {
         message: 'Post Successfully Created'
       })
     })
+})
+
+router.put("/:postId", checkAuth, isCreator, parseObj, upload.array('images') , async (req, res, next) => {
+  const { postId } = req.params;
+
+  console.log("reqbody", req.body);
+  const deleteImagesList = req.body.deleteImages ? JSON.parse(req.body.deleteImages) : [];
+  delete req.body.deleteImages;
+
+  const post = await Post.findByIdAndUpdate(postId, {...req.body, creator: req.userData.userId});
+
+  if(req.files && req.files.length > 0) {
+    const postImages = [];
+
+    req.files.forEach(f => {
+      postImages.push({
+        url: f.path,
+        fileName: f.originalname,
+      })
+    })
+
+    post.images.push(...postImages);
+    await post.save();
+  }
+
+  if(deleteImagesList && deleteImagesList.length > 0) {
+
+    for (let image of deleteImagesList) {
+      await cloudinary.uploader.destroy(image.split('.')[0]);
+  }
+  await post.updateOne({ $pull: { images: { fileName: { $in: deleteImagesList } } } })
+  }
+
+  res.status(200).json({
+    message: 'Post Successfully Updated'
+  })
 })
 
 router.get("/", (req, res, next) => {

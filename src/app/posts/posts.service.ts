@@ -22,8 +22,15 @@ export class PostsService {
   }
 
   createPost(postData: FormData) {
-    return this.http.post(environment.baseUrl + '/posts', postData)
+    return this.http.post(environment.baseUrl + '/posts', postData);
   }
+
+  updatePost(postData: FormData, postId: string) {
+    console.log(postData);
+
+    return this.http.put(environment.baseUrl + `/posts/${postId}`, postData)
+  }
+
 
   getAllPosts() {
     return this.http.get(environment.baseUrl + '/posts');
