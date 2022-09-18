@@ -34,8 +34,3 @@ module.exports.isCreator = async (req, res, next) => {
     })
   }
 }
-
-module.exports.parseObj = (req, res, next) => {
-  console.log(req.body);
-  next();
-}

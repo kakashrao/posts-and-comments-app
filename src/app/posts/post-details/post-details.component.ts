@@ -41,7 +41,6 @@ export class PostDetailsComponent implements OnInit {
   getPostDetails(postId: string) {
     this._postService.getPostDataByPostId(postId)
       .subscribe((response: any) => {
-        console.log(response);
         this.postData = response.post;
       })
   }

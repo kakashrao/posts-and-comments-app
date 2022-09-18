@@ -26,11 +26,12 @@ export class PostsService {
   }
 
   updatePost(postData: FormData, postId: string) {
-    console.log(postData);
-
-    return this.http.put(environment.baseUrl + `/posts/${postId}`, postData)
+    return this.http.put(environment.baseUrl + `/posts/${postId}`, postData);
   }
 
+  deletePost(postId: string) {
+    return this.http.delete(environment.baseUrl + `/posts/${postId}`);
+  }
 
   getAllPosts() {
     return this.http.get(environment.baseUrl + '/posts');

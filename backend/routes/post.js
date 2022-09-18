@@ -9,7 +9,7 @@ const  { cloudinary } = require('../cloudinary/index');
 
 const Post = require('../models/post');
 
-const { checkAuth, isCreator, parseObj } = require('../middlewares/check-auth');
+const { checkAuth, isCreator } = require('../middlewares/check-auth');
 
 app.use(express.json);
 
@@ -41,10 +41,9 @@ router.post("/", checkAuth, upload.array('images') , (req, res, next) => {
     })
 })
 
-router.put("/:postId", checkAuth, isCreator, parseObj, upload.array('images') , async (req, res, next) => {
+router.put("/:postId", checkAuth, isCreator, upload.array('images') , async (req, res, next) => {
   const { postId } = req.params;
 
-  console.log("reqbody", req.body);
   const deleteImagesList = req.body.deleteImages ? JSON.parse(req.body.deleteImages) : [];
   delete req.body.deleteImages;
 
@@ -80,7 +79,6 @@ router.put("/:postId", checkAuth, isCreator, parseObj, upload.array('images') , 
 router.get("/", (req, res, next) => {
   Post.find().populate('creator')
     .then((results) => {
-      console.log(results);
       let posts = [];
 
       if(results.length > 0) {
@@ -106,9 +104,9 @@ router.get("/", (req, res, next) => {
     })
 })
 
-router.get("/:id", (req, res) => {
+router.get("/:postId", (req, res) => {
   // console.log(req);
-  const postId = req.params['id'];
+  const postId = req.params['postId'];
   Post.findById(postId).populate('creator')
     .then((post) => {
 
@@ -140,6 +138,19 @@ router.get("/:id", (req, res) => {
         message: "Server error, please try again later"
       })
     })
+})
+
+router.delete("/:postId", checkAuth, isCreator, async (req, res) => {
+  const { postId } = req.params;
+
+  const post = await Post.findByIdAndDelete(postId);
+  for (let image of post.images) {
+    await cloudinary.uploader.destroy(image.fileName.split('.')[0]);
+  }
+
+  res.status(200).json({
+    message: "Post Successfully deleted"
+  })
 })
 
 module.exports = router;

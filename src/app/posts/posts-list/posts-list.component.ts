@@ -43,7 +43,6 @@ export class PostsListComponent implements OnInit {
   postLoading: boolean = false;
   getAllPosts() {
     this._postsService.getAllPosts().subscribe((response: any) => {
-      console.log(response);
       this.postsList = response.posts;
 
       this.postLoading = false;
@@ -62,7 +61,7 @@ export class PostsListComponent implements OnInit {
         this.userDetails = response.userData;
       },
       error => {
-        console.log(error);
+        // console.log(error);
       },
       () => {
         this.getAllPosts();
@@ -75,6 +74,17 @@ export class PostsListComponent implements OnInit {
 
   onEditPost(postId : string) {
     this._router.navigate([`/create-post/${postId}`]);
+  }
+
+  onDeletePost(postId: string) {
+    this.postLoading = true;
+    this._postsService.deletePost(postId).subscribe((response: any) => {
+      this.getAllPosts();
+    },
+    error => {
+      this.postLoading = false;
+    }
+    )
   }
 
   showMoreDescription(post: any, flag: boolean) {

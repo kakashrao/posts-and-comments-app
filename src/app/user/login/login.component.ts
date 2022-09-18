@@ -40,8 +40,6 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log(loginForm);
-
     this.isLoading = true;
 
     const userData = {
@@ -63,7 +61,6 @@ export class LoginComponent implements OnInit {
     },
     error => {
       this.isLoading = false;
-      console.log(error);
     })
   }
 }

@@ -65,7 +65,6 @@ export class PostCreateComponent implements OnInit {
         this.postImages.push(result);
       })
     }
-    console.log(this.postImages);
   }
 
   readUploadedFile(file: any) {
@@ -77,7 +76,6 @@ export class PostCreateComponent implements OnInit {
       }
 
       reader.readAsDataURL(file);
-      console.log(reader);
     })
   }
 
@@ -90,7 +88,6 @@ export class PostCreateComponent implements OnInit {
       this.deleteImagesList.push(image.fileName);
     }
     this.postImages.splice(index, 1);
-    console.log(this.deleteImagesList);
     this.sendingFileList.splice(index, 1);
     // this.form.value.images.splice(index, 1);
   }
@@ -133,7 +130,6 @@ export class PostCreateComponent implements OnInit {
     })
 
     this._postService.createPost(formData).subscribe((response: any) => {
-      console.log(response);
       this._postService.onPostCreated();
       this._router.navigate(['/posts']);
       this.isLoading = false;
@@ -157,14 +153,11 @@ export class PostCreateComponent implements OnInit {
 
     formData.append('deleteImages', JSON.stringify(this.deleteImagesList));
 
-    console.log(this.form.value.images);
-
     Object.values(this.form.value.images).forEach((file: any) => {
       formData.append('images', file);
     })
 
     this._postService.updatePost(formData, this.postId).subscribe((response: any) => {
-      console.log(response);
       this._router.navigate(['/posts']);
     },
      error => {

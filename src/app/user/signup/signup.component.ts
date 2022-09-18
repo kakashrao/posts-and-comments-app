@@ -71,7 +71,6 @@ export class SignupComponent implements OnInit {
     },
     error => {
       this.isLoading = false;
-      console.log(error);
     })
   }
 
@@ -95,7 +94,6 @@ export class SignupComponent implements OnInit {
     },
     error => {
       this.isLoading = false;
-      console.log(error);
     })
   }
 }
