@@ -7,20 +7,20 @@ import { StorageService } from "./storage.service";
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private _storageService : StorageService,
-    private _router : Router
-  ) {}
+    private _storageService: StorageService,
+    private _router: Router
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const userId = this._storageService.getUserId();
+    const userId = this._storageService.getFromLocalStorage('userId');
 
-    if(state.url === '/create-post') {
-      if(!userId) {
+    if (state.url === '/create-post') {
+      if (!userId) {
         this._router.navigate(['/posts']);
         return false;
       }
-    } else if(state.url === '/signup' || state.url === '/login') {
-      if(userId) {
+    } else if (state.url === '/signup' || state.url === '/login') {
+      if (userId) {
         this._router.navigate(['/posts']);
         return false;
       }

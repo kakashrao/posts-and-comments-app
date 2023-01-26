@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
     private _landingService: LandingService,
     private _storageService: StorageService,
     private _router: Router
-  ) {}
+  ) { }
 
   isAuthenticated: boolean = false;
   toastShow: boolean = false;
@@ -22,22 +22,22 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this._landingService.getCheckAuthSub().subscribe(() => {
-        const userId = this._storageService.getUserId();
+      const userId = this._storageService.getFromLocalStorage('userId');
 
-        if(userId) {
-          this.isAuthenticated = true;
-        } else {
-          this.isAuthenticated = false;
-        }
+      if (userId) {
+        this.isAuthenticated = true;
+      } else {
+        this.isAuthenticated = false;
+      }
     })
 
     this._landingService.checkAuthentication();
   }
 
   checkAuth() {
-    this.userId = this._storageService.getUserId();
+    this.userId = this._storageService.getFromLocalStorage('userId');
 
-    if(!this.userId) {
+    if (!this.userId) {
       this.toastShow = true;
 
       setTimeout(() => {

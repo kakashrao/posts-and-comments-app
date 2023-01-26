@@ -16,18 +16,18 @@ export class LoginComponent implements OnInit {
     private _router: Router,
     private _storageService: StorageService,
     private _landingService: LandingService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const userId = this._storageService.getUserId();
+    const userId = this._storageService.getFromLocalStorage('userId');
 
-    if(userId) {
+    if (userId) {
       this._router.navigate(['/posts']);
       return;
     }
   }
 
-  hide : boolean = true;
+  hide: boolean = true;
 
   showHidePassword() {
     this.hide = !this.hide;
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   isLoading: boolean = false;
 
   onLogin(loginForm: NgForm) {
-    if(!loginForm.valid) {
+    if (!loginForm.valid) {
       return;
     }
 
@@ -49,18 +49,18 @@ export class LoginComponent implements OnInit {
 
     this._userService.loginUser(userData).subscribe((response: any) => {
 
-      this._storageService.setUserId(response.userData.id);
-      this._storageService.setUserName(response.userData.name);
-      this._storageService.setUserProfession(response.userData.profession);
-      this._storageService.setUserBio(response.userData.bio);
-      this._storageService.setToken(response.userData.token);
+      this._storageService.setInLocalStorage('userId', response.userData.id);
+      this._storageService.setInLocalStorage('userName', response.userData.name);
+      this._storageService.setInLocalStorage('userProfession', response.userData.profession);
+      this._storageService.setInLocalStorage('userBio', response.userData.bio);
+      this._storageService.setInLocalStorage('token', response.userData.token);
 
       this._landingService.checkAuthentication();
 
       this._router.navigate(['/posts']);
     },
-    error => {
-      this.isLoading = false;
-    })
+      error => {
+        this.isLoading = false;
+      })
   }
 }

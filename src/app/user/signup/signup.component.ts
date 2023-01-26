@@ -16,18 +16,18 @@ export class SignupComponent implements OnInit {
     private _landingService: LandingService,
     private _router: Router,
     private _storageService: StorageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const userId = this._storageService.getUserId();
+    const userId = this._storageService.getFromLocalStorage('userId');
 
-    if(userId) {
+    if (userId) {
       this._router.navigate(['/posts']);
       return;
     }
   }
 
-  hide : boolean = true;
+  hide: boolean = true;
 
   showHidePassword() {
     this.hide = !this.hide;
@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
 
   isLoading: boolean = false;
   onSignup(signupForm: NgForm) {
-    if(!signupForm.valid) {
+    if (!signupForm.valid) {
       return;
     }
 
@@ -69,9 +69,9 @@ export class SignupComponent implements OnInit {
       this.loginUser(signupForm.value.userEmail, signupForm.value.userPassword);
 
     },
-    error => {
-      this.isLoading = false;
-    })
+      error => {
+        this.isLoading = false;
+      })
   }
 
   loginUser(userEmail: string, password: string) {
@@ -82,18 +82,18 @@ export class SignupComponent implements OnInit {
 
     this._userService.loginUser(userData).subscribe((response: any) => {
 
-      this._storageService.setUserId(response.userData.id);
-      this._storageService.setUserName(response.userData.name);
-      this._storageService.setUserProfession(response.userData.profession);
-      this._storageService.setUserBio(response.userData.bio);
-      this._storageService.setToken(response.userData.token);
+      this._storageService.setInLocalStorage('userId', response.userData.id);
+      this._storageService.setInLocalStorage('userName', response.userData.name);
+      this._storageService.setInLocalStorage('userProfession', response.userData.profession);
+      this._storageService.setInLocalStorage('userBio', response.userData.bio);
+      this._storageService.setInLocalStorage('token', response.userData.token);
 
       this._landingService.checkAuthentication();
 
       this._router.navigate(['/posts']);
     },
-    error => {
-      this.isLoading = false;
-    })
+      error => {
+        this.isLoading = false;
+      })
   }
 }

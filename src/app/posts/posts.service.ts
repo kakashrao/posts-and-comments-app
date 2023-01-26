@@ -9,7 +9,7 @@ import { environment } from "../../environments/environment";
 })
 export class PostsService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private postCreated = new Subject<boolean>();
 
@@ -20,6 +20,8 @@ export class PostsService {
   getPostCreatedObs() {
     return this.postCreated.asObservable();
   }
+
+  // Post related api's
 
   createPost(postData: FormData) {
     return this.http.post(environment.baseUrl + '/posts', postData);
@@ -41,7 +43,17 @@ export class PostsService {
     return this.http.get(environment.baseUrl + `/posts/${postId}`);
   }
 
+  // User related api's
+
   getUserDataByUserId(userId: string | null) {
     return this.http.get(environment.baseUrl + `/user/${userId}`);
+  }
+
+  // Comments related api's
+
+  postComment(payload: any) {
+    return this.http.post(
+      environment.baseUrl + `/comment`, payload
+    )
   }
 }

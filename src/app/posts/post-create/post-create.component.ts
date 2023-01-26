@@ -13,35 +13,35 @@ export class PostCreateComponent implements OnInit {
 
   constructor(
     private _postService: PostsService,
-    private _router : Router,
+    private _router: Router,
     private _storageService: StorageService,
     private _route: ActivatedRoute
-  ) {}
+  ) { }
 
   form: FormGroup = new FormGroup({})
-  postImages : any[] = [];
+  postImages: any[] = [];
   postId: string = '';
 
-  ngOnInit() : void {
-    const userId = this._storageService.getUserId();
+  ngOnInit(): void {
+    const userId = this._storageService.getFromLocalStorage('userId');
 
-    if(!userId) {
+    if (!userId) {
       this._router.navigate(['/posts']);
       return;
     }
 
     this.form = new FormGroup({
       title: new FormControl('', {
-        validators: [ Validators.required, Validators.minLength(3)]
+        validators: [Validators.required, Validators.minLength(3)]
       }),
       description: new FormControl('', {
-        validators: [ Validators.required ]
+        validators: [Validators.required]
       }),
       images: new FormControl([])
     })
 
     this._route.params.subscribe((params: any) => {
-      if(params['postId']) {
+      if (params['postId']) {
         this.postId = params['postId'];
         this.getPostDetails();
       }
@@ -58,12 +58,12 @@ export class PostCreateComponent implements OnInit {
     this.form.patchValue({ images: files });
     this.form.get('images')?.updateValueAndValidity();
 
-    for(let file of files) {
+    for (let file of files) {
       await this.readUploadedFile(file)
-      .then((result) => {
-        // console.log("result", result);
-        this.postImages.push(result);
-      })
+        .then((result) => {
+          // console.log("result", result);
+          this.postImages.push(result);
+        })
     }
   }
 
@@ -84,7 +84,7 @@ export class PostCreateComponent implements OnInit {
   deletePostImage(index: number) {
     let image = this.sendingFileList[index];
 
-    if(image?.url ? image.url : false){
+    if (image?.url ? image.url : false) {
       this.deleteImagesList.push(image.fileName);
     }
     this.postImages.splice(index, 1);
@@ -96,7 +96,7 @@ export class PostCreateComponent implements OnInit {
     this._postService.getPostDataByPostId(this.postId).subscribe((response: any) => {
       const postData = response.post;
 
-      this.postImages = postData.images.map((image:any) => {
+      this.postImages = postData.images.map((image: any) => {
         return image.url;
       })
 
@@ -134,9 +134,9 @@ export class PostCreateComponent implements OnInit {
       this._router.navigate(['/posts']);
       this.isLoading = false;
     },
-     error => {
-      this.isLoading = false;
-    })
+      error => {
+        this.isLoading = false;
+      })
   }
 
   async updatePost() {
@@ -160,8 +160,8 @@ export class PostCreateComponent implements OnInit {
     this._postService.updatePost(formData, this.postId).subscribe((response: any) => {
       this._router.navigate(['/posts']);
     },
-     error => {
-      this.isLoading = false;
-    })
+      error => {
+        this.isLoading = false;
+      })
   }
 }

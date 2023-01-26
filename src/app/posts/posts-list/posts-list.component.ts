@@ -18,7 +18,7 @@ export class PostsListComponent implements OnInit {
     private _postsService: PostsService,
     private _storageService: StorageService,
     private _landingService: LandingService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this._postsService.getPostCreatedObs().subscribe((isPostCreated: boolean) => {
@@ -52,27 +52,27 @@ export class PostsListComponent implements OnInit {
   }
 
   getUserDetails() {
-    const userId = this._storageService.getUserId();
+    const userId = this._storageService.getFromLocalStorage('userId');
 
     this.postLoading = true;
 
-    if(userId) {
+    if (userId) {
       this._postsService.getUserDataByUserId(userId).subscribe((response: any) => {
         this.userDetails = response.userData;
       },
-      error => {
-        // console.log(error);
-      },
-      () => {
-        this.getAllPosts();
-      })
+        error => {
+          // console.log(error);
+        },
+        () => {
+          this.getAllPosts();
+        })
     } else {
       this.userDetails = null;
       this.getAllPosts();
     }
   }
 
-  onEditPost(postId : string) {
+  onEditPost(postId: string) {
     this._router.navigate([`/create-post/${postId}`]);
   }
 
@@ -81,9 +81,9 @@ export class PostsListComponent implements OnInit {
     this._postsService.deletePost(postId).subscribe((response: any) => {
       this.getAllPosts();
     },
-    error => {
-      this.postLoading = false;
-    }
+      error => {
+        this.postLoading = false;
+      }
     )
   }
 
@@ -91,7 +91,7 @@ export class PostsListComponent implements OnInit {
     post.showFullText = flag;
   }
 
-  showPostDetails(post:any) {
+  showPostDetails(post: any) {
     this._router.navigate([`/post/${post.postId}`]);
   }
 }

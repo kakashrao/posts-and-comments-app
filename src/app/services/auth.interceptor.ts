@@ -12,12 +12,12 @@ export class AuthInterceptor implements HttpInterceptor {
     private _storageService: StorageService,
     private _router: Router,
     private _landingService: LandingService
-  ) {}
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this._storageService.getToken();
+    const token = this._storageService.getFromLocalStorage('token');
 
-    if(token) {
+    if (token) {
       const authRequest = req.clone({
         headers: req.headers.set('Authorization', token)
       })
@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
         .pipe(
           catchError((error: HttpErrorResponse) => {
             // console.log("error" ,error);
-            if(error.status === 401) {
+            if (error.status === 401) {
               this._storageService.clearAuthData();
               this._router.navigate(['/login']);
             }
@@ -39,14 +39,14 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
 
       return next.handle(req)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
 
-          const newError = error.error.message;
+            const newError = error.error.message;
 
-          return throwError(newError);
-        })
-      )
+            return throwError(newError);
+          })
+        )
     }
   }
 }

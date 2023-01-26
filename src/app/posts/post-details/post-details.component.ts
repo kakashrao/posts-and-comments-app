@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { map } from "rxjs";
+import { StorageService } from "src/app/services/storage.service";
 import { PostsService } from "../posts.service";
 
 @Component({
@@ -11,8 +12,9 @@ export class PostDetailsComponent implements OnInit {
 
   constructor(
     private _postService: PostsService,
+    private _storageService: StorageService,
     private _route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this._route.params.subscribe((param) => {
@@ -43,5 +45,21 @@ export class PostDetailsComponent implements OnInit {
       .subscribe((response: any) => {
         this.postData = response.post;
       })
+  }
+
+  onPostComment(commentField: HTMLTextAreaElement) {
+    console.log(commentField);
+
+    let payload = {
+      message: commentField,
+      commentedOn: this.postData.postId,
+      commentedBy: this._storageService.getFromLocalStorage('userId')
+    }
+
+    // this._postService.postComment(payload).subscribe({
+    //   next: (response: any) => {
+
+    //   }
+    // })
   }
 }
