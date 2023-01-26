@@ -31,4 +31,38 @@ router.post('/', checkAuth, (req, res, next) => {
     })
 });
 
+router.get('/:postId', async (req, res, next) => {
+  if (!req.params.postId) {
+    res.status(404).json({
+      message: 'Post not found'
+    })
+  }
+
+  const postId = req.params.postId;
+
+  const comment = await Comment.find({ commentOn: postId }).populate('commentBy');
+
+  if (comment && comment.length > 0) {
+    const comments = comment.map((element) => {
+      return {
+        commentId: element._id,
+        message: element.message,
+        commentBy: {
+          name: element.commentBy.name,
+          image: element.commentBy.imageUrl,
+          profession: element.commentBy.profession,
+        }
+      }
+    });
+
+    res.status(200).json({
+      data: comments
+    })
+  } else {
+    res.status(404).json({
+      message: 'No comments found'
+    })
+  }
+})
+
 module.exports = router;

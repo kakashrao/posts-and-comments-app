@@ -99,14 +99,14 @@
             <div class="comment-section">
               <div class="user-info-section">
                 <div class="user-img-section">
-                  <div class="user-img" *ngIf="comment.userImg">
-                    <img [src]="comment.userImg" alt="User">
+                  <div class="user-img" *ngIf="comment.commentBy.image">
+                    <img [src]="comment.commentBy.image" alt="User">
                   </div>
-                  <div class="alt-user-img" *ngIf="!comment.userImg">A</div>
+                  <div class="alt-user-img" *ngIf="!comment.commentBy.image">A</div>
                 </div>
                 <div class="user-info">
-                  <div class="user-name">{{ comment.userName }}</div>
-                  <div class="user-work-info">{{ comment.userProfession }}</div>
+                  <div class="user-name">{{ comment.commentBy.name | titlecase }}</div>
+                  <div class="user-work-info">{{ comment.commentBy.profession | titlecase }}</div>
                 </div>
               </div>
               <div class="user-comment">

@@ -56,4 +56,10 @@ export class PostsService {
       environment.baseUrl + `/comment`, payload
     )
   }
+
+  getPostComments(postId: string) {
+    return this.http.get(
+      environment.baseUrl + `/comment/${postId}`
+    )
+  }
 }

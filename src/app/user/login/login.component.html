@@ -1,16 +1,8 @@
 <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
   <div class="mb-3">
     <label for="userEmail" class="form-label">Email address</label>
-    <input
-      type="email"
-      class="form-control"
-      id="userEmail"
-      name="userEmail"
-      ngModel
-      placeholder="Enter your email"
-      required
-      #userEmail="ngModel"
-    >
+    <input type="email" class="form-control" id="userEmail" name="userEmail" ngModel placeholder="Enter your email"
+      required #userEmail="ngModel">
     <div class="valid" *ngIf="userEmail.valid">
       Looks good!
     </div>
@@ -22,21 +14,13 @@
   <div class="mb-3">
     <label for="userPass" class="form-label">Password</label>
     <div class="input-group">
-    <input
-    [type]="hide ? 'password' : 'text'"
-     class="form-control"
-     id="userPass"
-     name="userPassword"
-    ngModel
-    placeholder="Enter your password"
-    required
-    #userPassword="ngModel"
-    >
-    <span class="input-group-text">
-      <img src="../../../assets/images/common/eye-fill.svg" alt="" (click)="showHidePassword()" *ngIf="!hide">
-      <img src="../../../assets/images/common/eye-slash-fill.svg" alt="" (click)="showHidePassword()" *ngIf="hide">
-    </span>
-  </div>
+      <input [type]="!hide ? 'password' : 'text'" class="form-control" id="userPass" name="userPassword" ngModel
+        placeholder="Enter your password" required #userPassword="ngModel">
+      <span class="input-group-text">
+        <img src="../../../assets/images/common/eye-fill.svg" alt="" (click)="showHidePassword()" *ngIf="!hide">
+        <img src="../../../assets/images/common/eye-slash-fill.svg" alt="" (click)="showHidePassword()" *ngIf="hide">
+      </span>
+    </div>
     <div class="valid" *ngIf="userPassword.valid">
       Looks good!
     </div>
@@ -47,15 +31,10 @@
   </div>
 
   <div class="mb-3">
-    <button
-      type="submit"
-      class="btn btn-primary"
-      *ngIf="!isLoading"
-      [disabled]="
+    <button type="submit" class="btn btn-primary" *ngIf="!isLoading" [disabled]="
         !userEmail.valid ||
         !userPassword
-      "
-    >
+      ">
       Login
     </button>
 
@@ -69,4 +48,3 @@
     <a routerLink="/signup">Don't have an account, click here to sign up</a>
   </div>
 </form>
-

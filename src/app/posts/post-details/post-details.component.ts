@@ -23,6 +23,7 @@ export class PostDetailsComponent implements OnInit {
 
       if (postId) {
         this.getPostDetails(postId);
+        this.getAllComments(postId);
       } else {
         this._router.navigate(['/posts']);
       }
@@ -58,6 +59,13 @@ export class PostDetailsComponent implements OnInit {
       })
   }
 
+  getAllComments(postId: string) {
+    this._postService.getPostComments(postId).subscribe((response: any) => {
+      console.log(response);
+      this.commentList = response.data;
+    })
+  }
+
   commentLoading: boolean = false;
 
   onPostComment(commentField: HTMLTextAreaElement) {
@@ -77,11 +85,15 @@ export class PostDetailsComponent implements OnInit {
 
       this.commentList.push({
         commentId: response.commentId,
-        userName: this.userDetails.name,
-        userImg: this.userDetails.image,
-        userProfession: this.userDetails.profession,
         message: commentField.value,
+        commentBy: {
+          name: this.userDetails.name,
+          image: this.userDetails.image,
+          profession: this.userDetails.profession,
+        }
       })
+
+      commentField.value = '';
 
       this.commentLoading = false;
     },
