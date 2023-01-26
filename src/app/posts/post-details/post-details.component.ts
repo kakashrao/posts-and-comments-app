@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { map } from "rxjs";
 import { StorageService } from "src/app/services/storage.service";
 import { PostsService } from "../posts.service";
@@ -13,25 +13,33 @@ export class PostDetailsComponent implements OnInit {
   constructor(
     private _postService: PostsService,
     private _storageService: StorageService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
     this._route.params.subscribe((param) => {
       const postId = param['postId'];
-      this.getPostDetails(postId);
+
+      if (postId) {
+        this.getPostDetails(postId);
+      } else {
+        this._router.navigate(['/posts']);
+      }
     })
+
+    this.userDetails.name = this._storageService.getFromLocalStorage('userName') || '';
+    this.userDetails.image = this._storageService.getFromLocalStorage('userImage') || '';
+    this.userDetails.profession = this._storageService.getFromLocalStorage('userProfession') || '';
   }
 
-  commentList = [
-    {
-      userName: "Akash",
-      userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-      userWork: "B.Tech Mechanical",
-      commentText: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    }
-  ]
+  commentList: any[] = [];
 
+  userDetails = {
+    name: '',
+    image: '',
+    profession: ''
+  }
   postData: any = {};
 
   showMoreDescription(flag: boolean) {
@@ -41,25 +49,44 @@ export class PostDetailsComponent implements OnInit {
   postLoading: boolean = false;
 
   getPostDetails(postId: string) {
+    this.postLoading = true;
+
     this._postService.getPostDataByPostId(postId)
       .subscribe((response: any) => {
         this.postData = response.post;
+        this.postLoading = false;
       })
   }
 
-  onPostComment(commentField: HTMLTextAreaElement) {
-    console.log(commentField);
+  commentLoading: boolean = false;
 
-    let payload = {
-      message: commentField,
-      commentedOn: this.postData.postId,
-      commentedBy: this._storageService.getFromLocalStorage('userId')
+  onPostComment(commentField: HTMLTextAreaElement) {
+    if (!commentField.value || this.commentLoading) {
+      return;
     }
 
-    // this._postService.postComment(payload).subscribe({
-    //   next: (response: any) => {
+    this.commentLoading = true;
 
-    //   }
-    // })
+    let payload = {
+      message: commentField.value,
+      commentOn: this.postData.postId,
+      commentBy: this._storageService.getFromLocalStorage('userId')
+    }
+
+    this._postService.postComment(payload).subscribe((response: any) => {
+
+      this.commentList.push({
+        commentId: response.commentId,
+        userName: this.userDetails.name,
+        userImg: this.userDetails.image,
+        userProfession: this.userDetails.profession,
+        message: commentField.value,
+      })
+
+      this.commentLoading = false;
+    },
+      (error) => {
+        this.commentLoading = false;
+      })
   }
 }

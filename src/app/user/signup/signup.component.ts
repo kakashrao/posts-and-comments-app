@@ -86,6 +86,7 @@ export class SignupComponent implements OnInit {
       this._storageService.setInLocalStorage('userName', response.userData.name);
       this._storageService.setInLocalStorage('userProfession', response.userData.profession);
       this._storageService.setInLocalStorage('userBio', response.userData.bio);
+      this._storageService.setInLocalStorage('userImage', response.userData.imageUrl);
       this._storageService.setInLocalStorage('token', response.userData.token);
 
       this._landingService.checkAuthentication();

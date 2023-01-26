@@ -70,7 +70,7 @@
   }
 
   .user-work-info {
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -130,6 +130,24 @@ hr {
 
 /* Hide scrollbar for IE and Edge */
 .col-5 {
+  -ms-overflow-style: none;
+}
+
+.comments-list {
+  height: calc(100vh - 380px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.comments-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.comments-list {
   -ms-overflow-style: none;
 }
 
