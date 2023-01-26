@@ -74,6 +74,17 @@
   }
 }
 
+.close-img {
+  flex-grow: 1;
+  text-align: right;
+  align-items: center;
+
+  img {
+    width: 30px;
+    cursor: pointer;
+  }
+}
+
 hr {
   width: 95%;
   position: relative;

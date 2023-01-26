@@ -14,6 +14,9 @@
             <div class="user-name">{{ postData.creator.name }}</div>
             <div class="user-work-info">{{ postData.creator.profession }}</div>
           </div>
+          <div class="close-img">
+            <img src="../../../assets/images/common/close_button.svg" alt="Close" (click)="backToPostsListing()">
+          </div>
         </div>
         <hr>
         <div class="card post-detail-card">

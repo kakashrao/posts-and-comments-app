@@ -101,4 +101,8 @@ export class PostDetailsComponent implements OnInit {
         this.commentLoading = false;
       })
   }
+
+  backToPostsListing() {
+    this._router.navigate(['/posts']);
+  }
 }
