@@ -64,9 +64,10 @@
               </div>
             </li>
             <li class="list-group-item">
-              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button type="button" class="btn btn-danger">Like</button>
-                <!-- <button type="button" class="btn btn-warning">Comment</button> -->
+              <div class="image-group">
+                <img src="../.././../assets/images/post/liked.png" alt="Liked">
+                <img src="../.././../assets/images/post/not-liked.png" alt="Not Liked">
+                <img src="../../../assets/images/post/comment.png" alt="Comment">
               </div>
             </li>
           </ul>
@@ -100,7 +101,9 @@
         </ng-container>
         <ng-template #noComments>
           <div
-            style="height: 150px; display: flex; justify-content: center; align-items: center; background-color: white;">
+            style="display: flex; flex-direction: column; gap: 20px; justify-content: center; align-items: center; background-color: white;"
+            [ngClass]="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
+            <img src="../../../assets/images/post/no-comments.png" alt="No Comments" width="30%;">
             No Comments Yet !!!
           </div>
         </ng-template>

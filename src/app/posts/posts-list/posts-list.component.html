@@ -52,12 +52,13 @@
               <div class="card-body">
                 <div class="card-title">{{ post.title }}</div>
                 <ng-container *ngIf="!post?.showFullText">
-                  <p class="card-text">{{ post.description.substring(0, 100) }} <span
+                  <p class="card-text" style="cursor: pointer;">{{ post.description.substring(0, 100) }} <span
                       *ngIf="post.description.length > 100" (click)="showMoreDescription(post, true)">...show
                       more</span></p>
                 </ng-container>
                 <ng-container *ngIf="post.showFullText">
-                  <p class="card-text">{{ post.description }} <span (click)="showMoreDescription(post, false)">...show
+                  <p class="card-text" style="cursor: pointer;">{{ post.description }} <span
+                      (click)="showMoreDescription(post, false)">...show
                       less</span></p>
                 </ng-container>
               </div>
@@ -85,7 +86,7 @@
                   </ng-container>
                 </div>
               </ng-container>
-              <ul class="list-group list-group-flush" (click)="showPostDetails(post)">
+              <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                   <div class="comment-info">
                     <div class="comment-users">Akash & 23 Others</div>
@@ -95,9 +96,10 @@
                   </div>
                 </li>
                 <li class="list-group-item">
-                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <button type="button" class="btn btn-danger">Like</button>
-                    <button type="button" class="btn btn-warning">Comment</button>
+                  <div class="image-group" role="group">
+                    <img src="../.././../assets/images/post/liked.png" alt="Liked">
+                    <img src="../.././../assets/images/post/not-liked.png" alt="Not Liked">
+                    <img src="../../../assets/images/post/comment.png" alt="Comment" (click)="showPostDetails(post)">
                   </div>
                 </li>
               </ul>
