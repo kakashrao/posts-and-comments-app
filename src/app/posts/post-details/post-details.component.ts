@@ -19,8 +19,9 @@ export class PostDetailsComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe((param) => {
       const postId = param['postId'];
+      const userId = this._storageService.getFromLocalStorage("userId");
 
-      if (postId) {
+      if (postId && userId) {
         this.getPostDetails(postId);
         this.getAllComments(postId);
       } else {

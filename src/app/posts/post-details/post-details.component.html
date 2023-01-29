@@ -65,7 +65,7 @@
                   > 1 ? 'Comments' : 'Comment') }}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="this.userDetails.id">
               <div class="image-group">
                 <img src="../.././../assets/images/post/liked.png" alt="Liked" *ngIf="postData.likedByUser"
                   (click)="onLikeDislikePost(false)">
