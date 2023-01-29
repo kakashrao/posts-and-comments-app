@@ -23,6 +23,10 @@ const postSchema = mongoose.Schema({
   commentsCount: {
     type: Number,
     default: 0
+  },
+  likedByUsers: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
   }
 })
 

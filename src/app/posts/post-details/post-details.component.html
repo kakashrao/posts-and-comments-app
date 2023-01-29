@@ -57,7 +57,9 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div class="comment-info">
-                <div class="comment-users">Akash & 23 Others</div>
+                <div class="comment-users" *ngIf="postData.likesCount > 0">{{ postData.likesCount + ' ' +
+                  (postData.likesCount
+                  > 1 ? 'Likes' : 'Like') }}</div>
                 <div class="comment-num" *ngIf="postData.commentsCount > 0">{{ postData.commentsCount + ' ' +
                   (postData.commentsCount
                   > 1 ? 'Comments' : 'Comment') }}</div>
@@ -65,9 +67,11 @@
             </li>
             <li class="list-group-item">
               <div class="image-group">
-                <img src="../.././../assets/images/post/liked.png" alt="Liked">
-                <img src="../.././../assets/images/post/not-liked.png" alt="Not Liked">
-                <img src="../../../assets/images/post/comment.png" alt="Comment">
+                <img src="../.././../assets/images/post/liked.png" alt="Liked" *ngIf="postData.likedByUser"
+                  (click)="onLikeDislikePost(false)">
+                <img src="../.././../assets/images/post/not-liked.png" alt="Not Liked" *ngIf="!postData.likedByUser"
+                  (click)="onLikeDislikePost(true)">
+                <!-- <img src="../../../assets/images/post/comment.png" alt="Comment"> -->
               </div>
             </li>
           </ul>

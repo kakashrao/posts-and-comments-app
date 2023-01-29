@@ -79,6 +79,8 @@ router.put("/:postId", checkAuth, isCreator, upload.array('images'), async (req,
 router.get("/", (req, res, next) => {
   Post.find().populate('creator')
     .then((results) => {
+      const userId = req.query['userId'] ? req.query['userId'] : '';
+
       let posts = [];
 
       if (results.length > 0) {
@@ -89,6 +91,8 @@ router.get("/", (req, res, next) => {
             description: post.description,
             images: post.images,
             commentsCount: post.commentsCount,
+            likesCount: post.likedByUsers.length,
+            likedByUser: post.likedByUsers.includes(userId),
             creator: {
               id: post.creator._id,
               name: post.creator.name,
@@ -112,12 +116,16 @@ router.get("/:postId", (req, res) => {
     .then((post) => {
 
       if (post) {
+        const userId = req.query['userId'] ? req.query['userId'] : '';
+
         const postData = {
           postId: post._id,
           title: post.title,
           description: post.description,
           images: post.images,
           commentsCount: post.commentsCount,
+          likesCount: post.likedByUsers.length,
+          likedByUser: post.likedByUsers.includes(userId),
           creator: {
             id: post.creator._id,
             name: post.creator.name,
@@ -153,6 +161,50 @@ router.delete("/:postId", checkAuth, isCreator, async (req, res) => {
   res.status(200).json({
     message: "Post Successfully deleted"
   })
+})
+
+// Post like api's
+
+router.put('/:postId/liked', checkAuth, async (req, res, next) => {
+  const postId = req.params.postId;
+
+  if (!postId) {
+    res.status(404).json({
+      message: 'Please provide valid post id'
+    })
+  }
+
+  const status = req.query['status'] ? (req.query['status'] === 'true' ? true : false) : false;
+
+  const post = await Post.findById(postId);
+
+  if (status) {
+    post.likedByUsers.push(req.userData.userId);
+
+    post.save()
+      .then((result) => {
+        res.status(200).json({
+          message: 'Post details updated successfully'
+        })
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'Some error occurred, please try again'
+        })
+      })
+  } else {
+    post.updateOne({ $pull: { likedByUsers: req.userData.userId } })
+      .then((result) => {
+        res.status(200).json({
+          message: 'Post details updated successfully'
+        })
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'Some error occurred, please try again'
+        })
+      })
+  }
 })
 
 module.exports = router;

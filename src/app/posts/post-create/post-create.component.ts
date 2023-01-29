@@ -93,7 +93,9 @@ export class PostCreateComponent implements OnInit {
   }
 
   getPostDetails() {
-    this._postService.getPostDataByPostId(this.postId).subscribe((response: any) => {
+    const userId = this._storageService.getFromLocalStorage('userId');
+
+    this._postService.getPostDataByPostId(this.postId, userId ? userId : '').subscribe((response: any) => {
       const postData = response.post;
 
       this.postImages = postData.images.map((image: any) => {

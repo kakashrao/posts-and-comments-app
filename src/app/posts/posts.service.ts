@@ -35,12 +35,12 @@ export class PostsService {
     return this.http.delete(environment.baseUrl + `/posts/${postId}`);
   }
 
-  getAllPosts() {
-    return this.http.get(environment.baseUrl + '/posts');
+  getAllPosts(userId: string) {
+    return this.http.get(environment.baseUrl + `/posts?userId=${userId}`);
   }
 
-  getPostDataByPostId(postId: string) {
-    return this.http.get(environment.baseUrl + `/posts/${postId}`);
+  getPostDataByPostId(postId: string, userId: string) {
+    return this.http.get(environment.baseUrl + `/posts/${postId}?userId=${userId}`);
   }
 
   // User related api's
@@ -60,6 +60,14 @@ export class PostsService {
   getPostComments(postId: string) {
     return this.http.get(
       environment.baseUrl + `/comment/${postId}`
+    )
+  }
+
+  // Post like api
+
+  updatePostLikes(postId: string, status: boolean) {
+    return this.http.put(
+      environment.baseUrl + `/posts/${postId}/liked?status=${status}`, {}
     )
   }
 }

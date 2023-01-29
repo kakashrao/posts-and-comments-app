@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { map } from "rxjs";
 import { StorageService } from "src/app/services/storage.service";
 import { PostsService } from "../posts.service";
 
@@ -54,7 +53,7 @@ export class PostDetailsComponent implements OnInit {
   getPostDetails(postId: string) {
     this.postLoading = true;
 
-    this._postService.getPostDataByPostId(postId)
+    this._postService.getPostDataByPostId(postId, this.userDetails.id)
       .subscribe((response: any) => {
         this.postData = response.post;
         this.postLoading = false;
@@ -63,7 +62,6 @@ export class PostDetailsComponent implements OnInit {
 
   getAllComments(postId: string) {
     this._postService.getPostComments(postId).subscribe((response: any) => {
-      console.log(response);
       this.commentList = response.data;
     })
   }
@@ -80,7 +78,6 @@ export class PostDetailsComponent implements OnInit {
     let payload = {
       message: commentField.value,
       commentOn: this.postData.postId,
-      commentBy: this._storageService.getFromLocalStorage('userId')
     }
 
     this._postService.postComment(payload).subscribe((response: any) => {
@@ -95,6 +92,8 @@ export class PostDetailsComponent implements OnInit {
         }
       })
 
+      this.postData.commentsCount++;
+
       commentField.value = '';
 
       this.commentLoading = false;
@@ -102,6 +101,18 @@ export class PostDetailsComponent implements OnInit {
       (error) => {
         this.commentLoading = false;
       })
+  }
+
+  onLikeDislikePost(status: boolean) {
+    this._postService.updatePostLikes(this.postData.postId, status).subscribe((response: any) => {
+      this.postData.likedByUser = status;
+
+      if (status) {
+        this.postData.likesCount++;
+      } else {
+        this.postData.likesCount--;
+      }
+    })
   }
 
   backToPostsListing() {

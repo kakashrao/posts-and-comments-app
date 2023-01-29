@@ -16,6 +16,8 @@ router.post('/', checkAuth, (req, res, next) => {
     })
   }
 
+  req.body.commentBy = req.userData.userId;
+
   const comment = new Comment({ ...req.body });
 
   comment.save()

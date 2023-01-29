@@ -127,6 +127,11 @@ hr {
   justify-content: space-between;
 }
 
+.comment-num {
+  flex-grow: 1;
+  text-align: right;
+}
+
 .btn-group {
   display: flex;
 

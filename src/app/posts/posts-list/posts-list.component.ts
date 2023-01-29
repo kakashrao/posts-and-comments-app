@@ -42,7 +42,9 @@ export class PostsListComponent implements OnInit {
 
   postLoading: boolean = false;
   getAllPosts() {
-    this._postsService.getAllPosts().subscribe((response: any) => {
+    const userId = this.userDetails ? this.userDetails.id : '';
+
+    this._postsService.getAllPosts(userId).subscribe((response: any) => {
       this.postsList = response.posts;
 
       this.postLoading = false;
@@ -93,5 +95,17 @@ export class PostsListComponent implements OnInit {
 
   showPostDetails(post: any) {
     this._router.navigate([`/post/${post.postId}`]);
+  }
+
+  onLikeDislikePost(post: any, status: boolean) {
+    this._postsService.updatePostLikes(post.postId, status).subscribe((response: any) => {
+      post.likedByUser = status;
+
+      if (status) {
+        post.likesCount++;
+      } else {
+        post.likesCount--;
+      }
+    })
   }
 }
