@@ -62,6 +62,10 @@
   }
 }
 
+.card-title {
+  font-size: 20px;
+}
+
 .close-img {
   flex-grow: 1;
   text-align: right;
@@ -149,14 +153,15 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .comments-list-height {
-  height: calc(100vh - 380px);
+  height: calc(100vh - 184px);
 }
 
 .comments-list-height-updated {
-  height: calc(100vh - 140px);
+  height: calc(100vh - 135px);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -180,20 +185,19 @@ hr {
   width: 95%;
   position: relative;
   left: 2.5%;
+}
 
-  textarea {
-    resize: none;
-    height: 100px;
-  }
+.comment-input {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.user-input {
+  flex-grow: 1;
 }
 
 .post-comment-btn {
-  width: 95%;
-  position: relative;
-  left: 2.5%;
-  text-align: right;
-  margin-top: 15px;
-
   button {
     padding: 5px 15px;
   }

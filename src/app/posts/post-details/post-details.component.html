@@ -58,7 +58,9 @@
             <li class="list-group-item">
               <div class="comment-info">
                 <div class="comment-users">Akash & 23 Others</div>
-                <div class="comment-num">24 Comments</div>
+                <div class="comment-num" *ngIf="postData.commentsCount > 0">{{ postData.commentsCount + ' ' +
+                  (postData.commentsCount
+                  > 1 ? 'Comments' : 'Comment') }}</div>
               </div>
             </li>
             <li class="list-group-item">
@@ -73,30 +75,8 @@
     </div>
 
     <div class="col-5">
-      <div class="comment-section" *ngIf="userDetails.id">
-        <div class="user-info-section">
-          <div class="user-img-section">
-            <div class="user-img" *ngIf="userDetails.image">
-              <img [src]="userDetails.image" alt="User">
-            </div>
-            <div class="alt-user-img" *ngIf="!userDetails.image">{{userDetails.name[0]}}</div>
-          </div>
-          <div class="user-info">
-            <div class="user-name">{{userDetails.name | titlecase}}</div>
-            <div class="user-work-info">{{ userDetails.profession | titlecase }}</div>
-          </div>
-        </div>
-        <div class="user-comment">
-          <textarea class="form-control" placeholder="Write your comment here"
-            (keyup.enter)="onPostComment(commentField)" #commentField></textarea>
-        </div>
-        <div class="post-comment-btn">
-          <button class="btn btn-primary" (click)="onPostComment(commentField)">Post</button>
-        </div>
-      </div>
-
-      <h1 class="comment-heading mt-3">Comments</h1>
-      <div class="comments-list" *ngIf="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
+      <h1 class="comment-heading">Comments</h1>
+      <div class="comments-list" [ngClass]="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
         <ng-container *ngIf="commentList.length > 0; else noComments">
           <ng-container *ngFor="let comment of commentList">
             <div class="comment-section">
@@ -124,6 +104,16 @@
             No Comments Yet !!!
           </div>
         </ng-template>
+      </div>
+
+      <div class="comment-input" *ngIf="userDetails.id">
+        <div class="user-input">
+          <input class="form-control" placeholder="Add a comment" (keyup.enter)="onPostComment(commentField)"
+            #commentField style="height: 40px;">
+        </div>
+        <div class="post-comment-btn">
+          <button class="btn btn-primary" (click)="onPostComment(commentField)">Post</button>
+        </div>
       </div>
     </div>
   </div>

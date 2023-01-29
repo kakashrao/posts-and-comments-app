@@ -70,7 +70,7 @@ export class PostDetailsComponent implements OnInit {
 
   commentLoading: boolean = false;
 
-  onPostComment(commentField: HTMLTextAreaElement) {
+  onPostComment(commentField: HTMLInputElement) {
     if (!commentField.value || this.commentLoading) {
       return;
     }
