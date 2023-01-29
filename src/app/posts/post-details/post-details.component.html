@@ -73,7 +73,7 @@
     </div>
 
     <div class="col-5">
-      <div class="comment-section">
+      <div class="comment-section" *ngIf="userDetails.id">
         <div class="user-info-section">
           <div class="user-img-section">
             <div class="user-img" *ngIf="userDetails.image">
@@ -96,7 +96,7 @@
       </div>
 
       <h1 class="comment-heading mt-3">Comments</h1>
-      <div class="comments-list">
+      <div class="comments-list" *ngIf="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
         <ng-container *ngIf="commentList.length > 0; else noComments">
           <ng-container *ngFor="let comment of commentList">
             <div class="comment-section">

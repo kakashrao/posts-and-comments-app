@@ -29,6 +29,7 @@ export class PostDetailsComponent implements OnInit {
       }
     })
 
+    this.userDetails.id = this._storageService.getFromLocalStorage('userId') || '';
     this.userDetails.name = this._storageService.getFromLocalStorage('userName') || '';
     this.userDetails.image = this._storageService.getFromLocalStorage('userImage') || '';
     this.userDetails.profession = this._storageService.getFromLocalStorage('userProfession') || '';
@@ -37,6 +38,7 @@ export class PostDetailsComponent implements OnInit {
   commentList: any[] = [];
 
   userDetails = {
+    id: '',
     name: '',
     image: '',
     profession: ''
