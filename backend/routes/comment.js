@@ -3,9 +3,9 @@ const app = express();
 const router = express.Router();
 
 const Comment = require("../models/comment");
+const Post = require("../models/post");
 
 const { checkAuth } = require("../middlewares/check-auth");
-const { read } = require('fs');
 
 // app.use(express.json);
 
@@ -19,7 +19,13 @@ router.post('/', checkAuth, (req, res, next) => {
   const comment = new Comment({ ...req.body });
 
   comment.save()
-    .then((result) => {
+    .then(async (result) => {
+      const post = await Post.findById(req.body.commentOn);
+
+      post.commentsCount++;
+
+      await post.save();
+
       res.status(200).json({
         commentId: comment._id
       });

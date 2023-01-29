@@ -2,12 +2,7 @@
   <div class="row justify-content-center" *ngIf="!postLoading; else spinner">
     <div class="col-4">
       <div class="card user-detail-card" *ngIf="userDetails">
-        <img
-          [src]="userDetails.imageUrl"
-          [alt]="userDetails.name"
-          class="card-img-top"
-          *ngIf="userDetails.imageUrl"
-        >
+        <img [src]="userDetails.imageUrl" [alt]="userDetails.name" class="card-img-top" *ngIf="userDetails.imageUrl">
         <div class="alt-card-img" *ngIf="!userDetails.imageUrl">{{ userDetails.name.substring(0, 1) }}</div>
         <div class="card-body">
           <h5 class="card-title">{{ userDetails.name | titlecase }}</h5>
@@ -46,7 +41,8 @@
                 <div class="user-name">{{ post.creator.name }}</div>
                 <div class="user-work-info">{{ post.creator.profession }}</div>
               </div>
-              <div class="d-grid gap-2 d-md-block action-btns" *ngIf="userDetails && userDetails.id === post.creator.id">
+              <div class="d-grid gap-2 d-md-block action-btns"
+                *ngIf="userDetails && userDetails.id === post.creator.id">
                 <button class="btn btn-primary" type="button" (click)="onEditPost(post.postId)">Edit</button>
                 <button class="btn btn-danger" type="button" (click)="onDeletePost(post.postId)">Delete</button>
               </div>
@@ -56,10 +52,13 @@
               <div class="card-body">
                 <div class="card-title">{{ post.title }}</div>
                 <ng-container *ngIf="!post?.showFullText">
-                  <p class="card-text">{{ post.description.substring(0, 100) }} <span *ngIf="post.description.length > 100" (click)="showMoreDescription(post, true)">...show more</span></p>
+                  <p class="card-text">{{ post.description.substring(0, 100) }} <span
+                      *ngIf="post.description.length > 100" (click)="showMoreDescription(post, true)">...show
+                      more</span></p>
                 </ng-container>
                 <ng-container *ngIf="post.showFullText">
-                  <p class="card-text">{{ post.description }} <span (click)="showMoreDescription(post, false)">...show less</span></p>
+                  <p class="card-text">{{ post.description }} <span (click)="showMoreDescription(post, false)">...show
+                      less</span></p>
                 </ng-container>
               </div>
 
@@ -73,11 +72,13 @@
                     </ng-container>
                   </div>
                   <ng-container *ngIf="post.images.length > 1">
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                      data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                      data-bs-slide="next">
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">Next</span>
                     </button>
@@ -88,7 +89,9 @@
                 <li class="list-group-item">
                   <div class="comment-info">
                     <div class="comment-users">Akash & 23 Others</div>
-                    <div class="comment-num">24 Comments</div>
+                    <div class="comment-num" *ngIf="post.commentsCount > 0">{{ post.commentsCount + ' ' +
+                      (post.commentsCount
+                      > 1 ? 'Comments' : 'Comment') }}</div>
                   </div>
                 </li>
                 <li class="list-group-item">
@@ -112,7 +115,7 @@
           <div class="create-post-btn">
             <button routerLink="/create-post">Create Post</button>
           </div>
-         </div>
+        </div>
       </ng-template>
     </div>
   </div>
