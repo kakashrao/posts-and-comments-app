@@ -22,17 +22,17 @@ export class PostDetailsComponent implements OnInit {
       const userId = this._storageService.getFromLocalStorage("userId");
 
       if (postId && userId) {
+        this.userDetails.id = this._storageService.getFromLocalStorage('userId') || '';
+        this.userDetails.name = this._storageService.getFromLocalStorage('userName') || '';
+        this.userDetails.image = this._storageService.getFromLocalStorage('userImage') || '';
+        this.userDetails.profession = this._storageService.getFromLocalStorage('userProfession') || '';
+
         this.getPostDetails(postId);
         this.getAllComments(postId);
       } else {
         this._router.navigate(['/posts']);
       }
     })
-
-    this.userDetails.id = this._storageService.getFromLocalStorage('userId') || '';
-    this.userDetails.name = this._storageService.getFromLocalStorage('userName') || '';
-    this.userDetails.image = this._storageService.getFromLocalStorage('userImage') || '';
-    this.userDetails.profession = this._storageService.getFromLocalStorage('userProfession') || '';
   }
 
   commentList: any[] = [];
