@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const multer = require('multer');
 const { storage } = require('../cloudinary/index');
@@ -12,8 +12,8 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 router.post("", upload.single('image'), (req, res) => {
-  bcrypt.hash(req.body.password, 10, async function(err, hash) {
-    if(hash) {
+  bcrypt.hash(req.body.password, 10, async function (err, hash) {
+    if (hash) {
       const user = new User({
         name: req.body.name,
         profession: req.body.profession,
@@ -32,26 +32,26 @@ router.post("", upload.single('image'), (req, res) => {
         message: "Failed to signup, please try again"
       })
     }
-});
+  });
 })
 
 router.put("/", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if(user) {
-    bcrypt.compare(req.body.password, user.password, async function(err, result) {
-      if(result) {
+  if (user) {
+    bcrypt.compare(req.body.password, user.password, async function (err, result) {
+      if (result) {
         const token = await jwt.sign({
           email: user.email,
           id: user._id
         },
           process.env.JWT_KEY,
-        {
-          expiresIn: '1h'
-        }
+          {
+            expiresIn: '1h'
+          }
         )
 
         res.status(200).json({
-          userData : {
+          userData: {
             token: token,
             id: user._id,
             name: user.name,
@@ -76,9 +76,9 @@ router.put("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const user = await User.findOne({ _id: req.params.userId });
 
-  if(user) {
+  if (user) {
     res.status(200).json({
-      userData : {
+      userData: {
         id: user._id,
         name: user.name,
         profession: user.profession,
