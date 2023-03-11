@@ -8,3 +8,11 @@
   font-weight: 400;
   font-family: 'DynaPuff', cursive;
 }
+
+.toast-container {
+  z-index: 10;
+
+  .toast-body {
+    background-color: white;
+  }
+}

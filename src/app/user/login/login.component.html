@@ -1,15 +1,50 @@
-<form>
+<form (submit)="onLogin(loginForm)" #loginForm="ngForm">
   <div class="mb-3">
     <label for="userEmail" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="userEmail" placeholder="Enter your email">
+    <input type="email" class="form-control" id="userEmail" name="userEmail" ngModel placeholder="Enter your email"
+      required #userEmail="ngModel">
+    <div class="valid" *ngIf="userEmail.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userEmail.touched && userEmail.invalid">
+      You must give an email before submitting.
+    </div>
   </div>
   <div class="mb-3">
     <label for="userPass" class="form-label">Password</label>
-    <input type="password" class="form-control" id="userPass" placeholder="Enter your password">
+    <div class="input-group">
+      <input [type]="!hide ? 'password' : 'text'" class="form-control" id="userPass" name="userPassword" ngModel
+        placeholder="Enter your password" required #userPassword="ngModel">
+      <span class="input-group-text">
+        <img src="../../../assets/images/common/eye-fill.svg" alt="" (click)="showHidePassword()" *ngIf="!hide">
+        <img src="../../../assets/images/common/eye-slash-fill.svg" alt="" (click)="showHidePassword()" *ngIf="hide">
+      </span>
+    </div>
+    <div class="valid" *ngIf="userPassword.valid">
+      Looks good!
+    </div>
+
+    <div class="invalid" *ngIf="userPassword.touched && userPassword.invalid">
+      You must give a password before submitting.
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Login</button>
+
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary" *ngIf="!isLoading" [disabled]="
+        !userEmail.valid ||
+        !userPassword
+      ">
+      Login
+    </button>
+
+    <button class="btn btn-primary" type="button" *ngIf="isLoading" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </button>
+  </div>
+
   <div class="mt-3 signup-text">
     <a routerLink="/signup">Don't have an account, click here to sign up</a>
   </div>
 </form>
-

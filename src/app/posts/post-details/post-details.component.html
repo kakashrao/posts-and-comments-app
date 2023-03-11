@@ -1,88 +1,132 @@
 <div class="container text-center">
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" *ngIf="!postLoading; else spinner">
     <div class="col-7 posts-container">
-        <div class="row post-container">
-          <div class="user-info-section">
-            <div class="user-img-section">
-              <div class="user-img" *ngIf="postData.userImg">
-                <img [src]="postData.postImage" alt="User">
-              </div>
-              <div class="alt-user-img" *ngIf="!postData.postImage">A</div>
+      <div class="row post-container">
+        <div class="user-info-section">
+          <div class="user-img-section">
+            <div class="user-img" *ngIf="postData.creator.imageUrl">
+              <img [src]="postData.creator.imageUrl" alt="User">
             </div>
-            <div class="user-info">
-              <div class="user-name">{{ postData.userName }}</div>
-              <div class="user-work-info">{{ postData.userWork }}</div>
+            <div class="alt-user-img" *ngIf="!postData.creator.imageUrl">{{ postData.creator.name.substring(0, 1) }}
             </div>
           </div>
-          <hr>
-          <div class="card post-detail-card">
-            <div class="card-body">
-              <p class="card-text">{{ postData.postDesc }}</p>
-            </div>
-            <img [src]="postData.postImage" class="card-img-top" alt="">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="comment-info">
-                  <div class="comment-users">Akash & 23 Others</div>
-                  <div class="comment-num">24 Comments</div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                  <button type="button" class="btn btn-danger">Like</button>
-                  <!-- <button type="button" class="btn btn-warning">Comment</button> -->
-                </div>
-              </li>
-            </ul>
+          <div class="user-info">
+            <div class="user-name">{{ postData.creator.name }}</div>
+            <div class="user-work-info">{{ postData.creator.profession }}</div>
+          </div>
+          <div class="close-img">
+            <img src="../../../assets/images/common/close_button.svg" alt="Close" (click)="backToPostsListing()">
           </div>
         </div>
+        <hr>
+        <div class="card post-detail-card">
+          <div class="card-body">
+            <div class="card-title">{{ postData.title }}</div>
+            <ng-container *ngIf="!postData?.showFullText">
+              <p class="card-text">{{ postData.description.substring(0, 100) }} <span
+                  *ngIf="postData.description.length > 100" (click)="showMoreDescription(true)">...show more</span></p>
+            </ng-container>
+            <ng-container *ngIf="postData.showFullText">
+              <p class="card-text">{{ postData.description }} <span (click)="showMoreDescription(false)">...show
+                  less</span></p>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="postData.images && postData.images.length > 0">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <ng-container *ngFor="let image of postData.images; let i = index">
+                  <div class="carousel-item" [ngClass]="i == 0 ? 'active' : ''">
+                    <img [src]="image.url" class="d-block w-100" [alt]="image.fileName">
+                  </div>
+                </ng-container>
+              </div>
+              <ng-container *ngIf="postData.images.length > 1">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                  data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                  data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="comment-info">
+                <div class="comment-users" *ngIf="postData.likesCount > 0">{{ postData.likesCount + ' ' +
+                  (postData.likesCount
+                  > 1 ? 'Likes' : 'Like') }}</div>
+                <div class="comment-num" *ngIf="postData.commentsCount > 0">{{ postData.commentsCount + ' ' +
+                  (postData.commentsCount
+                  > 1 ? 'Comments' : 'Comment') }}</div>
+              </div>
+            </li>
+            <li class="list-group-item" *ngIf="this.userDetails.id">
+              <div class="image-group">
+                <img src="../.././../assets/images/post/liked.png" alt="Liked" *ngIf="postData.likedByUser"
+                  (click)="onLikeDislikePost(false)">
+                <img src="../.././../assets/images/post/not-liked.png" alt="Not Liked" *ngIf="!postData.likedByUser"
+                  (click)="onLikeDislikePost(true)">
+                <!-- <img src="../../../assets/images/post/comment.png" alt="Comment"> -->
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="col-5">
-      <div class="comment-section">
-        <div class="user-info-section">
-          <div class="user-img-section">
-            <div class="user-img" *ngIf="postData.userImg">
-              <img [src]="postData.userImg" alt="User">
+      <h1 class="comment-heading">Comments</h1>
+      <div class="comments-list" [ngClass]="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
+        <ng-container *ngIf="commentList.length > 0; else noComments">
+          <ng-container *ngFor="let comment of commentList">
+            <div class="comment-section">
+              <div class="user-info-section">
+                <div class="user-img-section">
+                  <div class="user-img" *ngIf="comment.commentBy.image">
+                    <img [src]="comment.commentBy.image" alt="User">
+                  </div>
+                  <div class="alt-user-img" *ngIf="!comment.commentBy.image">A</div>
+                </div>
+                <div class="user-info">
+                  <div class="user-name">{{ comment.commentBy.name | titlecase }}</div>
+                  <div class="user-work-info">{{ comment.commentBy.profession | titlecase }}</div>
+                </div>
+              </div>
+              <div class="user-comment">
+                {{ comment.message }}
+              </div>
             </div>
-            <div class="alt-user-img" *ngIf="!postData.userImg">A</div>
+          </ng-container>
+        </ng-container>
+        <ng-template #noComments>
+          <div
+            style="display: flex; flex-direction: column; gap: 20px; justify-content: center; align-items: center; background-color: white;"
+            [ngClass]="userDetails.id ? 'comments-list-height' : 'comments-list-height-updated'">
+            <img src="../../../assets/images/post/no-comments.png" alt="No Comments" width="30%;">
+            No Comments Yet !!!
           </div>
-          <div class="user-info">
-            <div class="user-name">{{ postData.userName }}</div>
-            <div class="user-work-info">{{ postData.userWork }}</div>
-          </div>
-        </div>
-        <div class="user-comment">
-          <textarea
-            class="form-control"
-            placeholder="Write your comment here"
-          ></textarea>
-        </div>
-        <div class="post-comment-btn">
-          <button class="btn btn-primary">Post</button>
-        </div>
+        </ng-template>
       </div>
 
-      <h1 class="comment-heading mt-3">Comments</h1>
-      <ng-container *ngFor="let comment of commentList">
-        <div class="comment-section">
-          <div class="user-info-section">
-            <div class="user-img-section">
-              <div class="user-img" *ngIf="comment.userImg">
-                <img [src]="comment.userImg" alt="User">
-              </div>
-              <div class="alt-user-img" *ngIf="!comment.userImg">A</div>
-            </div>
-            <div class="user-info">
-              <div class="user-name">{{ comment.userName }}</div>
-              <div class="user-work-info">{{ comment.userWork }}</div>
-            </div>
-          </div>
-          <div class="user-comment">
-           {{ comment.commentText }}
-          </div>
+      <div class="comment-input" *ngIf="userDetails.id">
+        <div class="user-input">
+          <input class="form-control" placeholder="Add a comment" (keyup.enter)="onPostComment(commentField)"
+            #commentField style="height: 40px;">
         </div>
-     </ng-container>
+        <div class="post-comment-btn">
+          <button class="btn btn-primary" (click)="onPostComment(commentField)">Post</button>
+        </div>
+      </div>
     </div>
   </div>
+  <ng-template #spinner>
+    <div class="spinner-grow" style="width: 20rem; height: 20rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </ng-template>
 </div>

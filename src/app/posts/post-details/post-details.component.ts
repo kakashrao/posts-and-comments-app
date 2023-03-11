@@ -1,25 +1,122 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StorageService } from "src/app/services/storage.service";
+import { PostsService } from "../posts.service";
 
 @Component({
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.scss']
 })
-export class PostDetailsComponent {
+export class PostDetailsComponent implements OnInit {
 
-  commentList = [
-    {
-      userName: "Akash",
-      userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-      userWork: "B.Tech Mechanical",
-      commentText: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    }
-  ]
+  constructor(
+    private _postService: PostsService,
+    private _storageService: StorageService,
+    private _route: ActivatedRoute,
+    private _router: Router
+  ) { }
 
-  postData = {
-      userName: "Akash",
-      userImg: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg",
-      userWork: "B.Tech Mechanical",
-      postDesc: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-      postImage: "https://images.unsplash.com/photo-1661077731761-20d878c92341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.jpg"
+  ngOnInit(): void {
+    this._route.params.subscribe((param) => {
+      const postId = param['postId'];
+      const userId = this._storageService.getFromLocalStorage("userId");
+
+      if (postId && userId) {
+        this.userDetails.id = this._storageService.getFromLocalStorage('userId') || '';
+        this.userDetails.name = this._storageService.getFromLocalStorage('userName') || '';
+        this.userDetails.image = this._storageService.getFromLocalStorage('userImage') || '';
+        this.userDetails.profession = this._storageService.getFromLocalStorage('userProfession') || '';
+
+        this.getPostDetails(postId);
+        this.getAllComments(postId);
+      } else {
+        this._router.navigate(['/posts']);
+      }
+    })
+  }
+
+  commentList: any[] = [];
+
+  userDetails = {
+    id: '',
+    name: '',
+    image: '',
+    profession: ''
+  }
+  postData: any = {};
+
+  showMoreDescription(flag: boolean) {
+    this.postData.showFullText = flag;
+  }
+
+  postLoading: boolean = false;
+
+  getPostDetails(postId: string) {
+    this.postLoading = true;
+
+    this._postService.getPostDataByPostId(postId, this.userDetails.id)
+      .subscribe((response: any) => {
+        this.postData = response.post;
+        this.postLoading = false;
+      })
+  }
+
+  getAllComments(postId: string) {
+    this._postService.getPostComments(postId).subscribe((response: any) => {
+      this.commentList = response.data;
+    })
+  }
+
+  commentLoading: boolean = false;
+
+  onPostComment(commentField: HTMLInputElement) {
+    if (!commentField.value || this.commentLoading) {
+      return;
     }
+
+    this.commentLoading = true;
+
+    let payload = {
+      message: commentField.value,
+      commentOn: this.postData.postId,
+    }
+
+    this._postService.postComment(payload).subscribe((response: any) => {
+
+      this.commentList.push({
+        commentId: response.commentId,
+        message: commentField.value,
+        commentBy: {
+          name: this.userDetails.name,
+          image: this.userDetails.image,
+          profession: this.userDetails.profession,
+        }
+      })
+
+      this.postData.commentsCount++;
+
+      commentField.value = '';
+
+      this.commentLoading = false;
+    },
+      (error) => {
+        this.commentLoading = false;
+      })
+  }
+
+  onLikeDislikePost(status: boolean) {
+    this._postService.updatePostLikes(this.postData.postId, status).subscribe((response: any) => {
+      this.postData.likedByUser = status;
+
+      if (status) {
+        this.postData.likesCount++;
+      } else {
+        this.postData.likesCount--;
+      }
+    })
+  }
+
+  backToPostsListing() {
+    this._router.navigate(['/posts']);
+  }
 }

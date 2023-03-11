@@ -16,12 +16,27 @@
 
 .user-detail-card {
   padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin: auto;
+  }
+
+  .alt-card-img {
+    font-size: 60px;
+    font-weight: 700;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    padding-top: 4px;
+    text-align: center;
   }
 }
 
@@ -36,7 +51,18 @@
 
 .user-info-section {
   display: flex;
+  align-items: center;
   margin-bottom: 10px;
+
+  .action-btns {
+    flex-grow: 1;
+    text-align: right;
+
+    button {
+      width: 100px;
+      margin-left: 15px;
+    }
+  }
 }
 
 .user-img-section {
@@ -59,6 +85,7 @@
     padding-top: 4px;
     text-align: center;
   }
+
 }
 
 .user-info {
@@ -70,7 +97,7 @@
   }
 
   .user-work-info {
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -83,11 +110,15 @@ hr {
 .post-detail-card {
   width: 100%;
   border: none;
-  cursor: pointer;
+  // cursor: pointer;
 
   img {
     width: 100%;
     height: 400px;
+  }
+
+  .card-title {
+    font-size: 20px;
   }
 
   .card-text {
@@ -101,9 +132,25 @@ hr {
   }
 }
 
+.image-group {
+  display: flex;
+  gap: 20px;
+
+  img {
+    cursor: pointer;
+    width: 35px;
+    height: auto;
+  }
+}
+
 .comment-info {
   display: flex;
   justify-content: space-between;
+}
+
+.comment-num {
+  flex-grow: 1;
+  text-align: right;
 }
 
 .btn-group {
@@ -120,4 +167,43 @@ hr {
 .spinner-grow {
   position: relative;
   top: 20%;
+}
+
+.empty-page {
+  min-height: calc(100vh - 100px);
+  background-color: white;
+  padding: 2%;
+  border-radius: 4px;
+
+  .empty-page-img {
+    text-align: center;
+    margin-bottom: 50px;
+
+    img {
+      width: 80%;
+      height: 50vh;
+    }
+  }
+
+  .empty-page-title {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .empty-page-text {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .create-post-btn {
+    text-align: center;
+
+    button {
+      border: none;
+      border-radius: 3px;
+      padding: 5px 15px;
+      background-color: black;
+      color: white;
+    }
+  }
 }
