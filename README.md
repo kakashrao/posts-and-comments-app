@@ -8,7 +8,7 @@ Backend related files are available in backend folder.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Run 'node ./backend/server.js' for backend server.
+Run 'node ./backend/server.js' for backend server. For backend to run successfully, install dependencies from package.json file that are in backend folder.
 
 ## Code scaffolding
 
