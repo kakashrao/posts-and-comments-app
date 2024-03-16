@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
 
 mongoose
   .connect(
-    "mongodb+srv://akash:fHM586W6Rgx63Ghi@cluster0.ojbqg.mongodb.net/post-and-comments-app?retryWrites=true&w=majority"
+    `${process.env.MONGO_DB_URI}/post-and-comments-app?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log("Connection to database successful");
